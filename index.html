@@ -55,7 +55,7 @@
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 48px; height: 64px;
+      padding: 0 24px; height: 64px;
     }
 
     .nav-logo {
@@ -73,11 +73,11 @@
     }
 
     .nav-links {
-      display: flex; gap: 32px; list-style: none;
+      display: flex; gap: 20px; list-style: none;
     }
     .nav-links a {
-      text-decoration: none; color: var(--muted); font-size: 0.92rem; font-weight: 500;
-      transition: color 0.2s;
+      text-decoration: none; color: var(--muted); font-size: 0.85rem; font-weight: 500;
+      transition: color 0.2s; white-space: nowrap;
     }
     .nav-links a:hover { color: var(--amber-dark); }
 
@@ -620,16 +620,16 @@
     <li><a href="#pricing">Pricing</a></li>
     <li><a href="why-tenantsentry.html">Why TenantSentry</a></li>
     <li><a href="#testimonials">Customers</a></li>
+    <li><a href="about.html">About</a></li>
   </ul>
   <div class="nav-ctas">
-    <a href="#pricing" class="btn-ghost" style="text-decoration:none">Sign In</a>
+    <a href="#" onclick="openContact();return false;" class="btn-ghost" style="text-decoration:none">Contact Us</a>
     <a href="#pricing" class="btn-primary" style="text-decoration:none">Get Started Free →</a>
   </div>
 </nav>
 
 <!-- ── HERO ─────────────────────────────────────────── -->
 <div class="hero">
-  <div class="hero-badge">🇦🇺 Built for Australian Commercial Tenants</div>
   <h1>Your lease is <span class="highlight">costing you more</span> than it should.</h1>
   <p>TenantSentry AI audits your commercial lease in minutes — catching overcharges, hidden clauses, and compliance breaches before they drain your cash flow.</p>
   <div class="hero-ctas">
@@ -1032,7 +1032,7 @@
     </div>
 
     <p style="margin-top:32px;font-size:0.85rem;color:var(--muted)">
-      All prices exclude GST · Additional leases always at $399/lease · Need more than 10? <a href="#contact" style="color:var(--amber)">Contact us</a>
+      All prices exclude GST · Additional leases always at $399/lease · Need more than 10? <a href="#" onclick="openContact();return false;" style="color:var(--amber)">Contact us</a>
     </p>
 
     <!-- Founding Partner callout -->
@@ -1055,7 +1055,7 @@
   <p>Upload your first lease and get a free audit report — no credit card required.</p>
   <div class="cta-band-btns">
     <a href="https://tenantsentry.ai/audit" class="btn-cta-primary" style="text-decoration:none">Audit My Lease Free →</a>
-    <a href="https://tenantsentry.ai/demo" class="btn-cta-outline" style="text-decoration:none">Book a Demo</a>
+    <a href="#" onclick="openContact();return false;" class="btn-cta-outline" style="text-decoration:none">Contact Us</a>
   </div>
 </div>
 
@@ -1092,7 +1092,7 @@
     <div class="footer-col">
       <h4>Company</h4>
       <ul>
-        <li><a href="https://tenantsentry.ai/about">About</a></li>
+        <li><a href="about.html">About</a></li>
         <li><a href="https://tenantsentry.ai/pricing">Pricing</a></li>
         <li><a href="https://tenantsentry.ai/contact">Contact</a></li>
         <li><a href="https://tenantsentry.ai/privacy">Privacy Policy</a></li>
@@ -1117,7 +1117,132 @@
     document.getElementById('tab-' + name).classList.add('active');
     event.currentTarget.classList.add('active');
   }
+  function openContact() {
+    document.getElementById('contact-modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeContact() {
+    document.getElementById('contact-modal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function handleContact(e) {
+    e.preventDefault();
+    e.target.style.display = 'none';
+    document.getElementById('contact-success').style.display = 'block';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeContact(); });
 </script>
+
+<!-- ── CONTACT MODAL ── -->
+<style>
+  .contact-modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 999;
+    background: rgba(0,0,0,0.45); backdrop-filter: blur(4px);
+    align-items: center; justify-content: center; padding: 24px;
+  }
+  .contact-modal-overlay.open { display: flex; }
+  .contact-modal {
+    background: white; border-radius: 16px;
+    padding: 40px; width: 100%; max-width: 520px;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.18);
+    position: relative; animation: modalIn 0.2s ease;
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .modal-close {
+    position: absolute; top: 16px; right: 16px;
+    background: none; border: none; cursor: pointer;
+    font-size: 1.2rem; color: var(--warm-gray);
+    width: 32px; height: 32px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+  .modal-close:hover { background: var(--warm-white); }
+  .modal-title {
+    font-size: 1.2rem; font-weight: 800;
+    color: var(--charcoal); margin-bottom: 4px;
+  }
+  .modal-sub { font-size: 0.88rem; color: var(--muted); margin-bottom: 24px; }
+  .modal-form { display: flex; flex-direction: column; gap: 14px; }
+  .modal-form label {
+    font-size: 0.82rem; font-weight: 600; color: var(--charcoal);
+    display: flex; flex-direction: column; gap: 5px;
+  }
+  .modal-form input,
+  .modal-form select,
+  .modal-form textarea {
+    border: 1px solid var(--border); border-radius: 8px;
+    padding: 9px 13px; font-size: 0.9rem;
+    font-family: inherit; outline: none;
+    transition: border-color 0.15s;
+  }
+  .modal-form input:focus,
+  .modal-form select:focus,
+  .modal-form textarea:focus { border-color: var(--amber); }
+  .modal-form textarea { resize: vertical; min-height: 90px; }
+  .modal-submit {
+    background: var(--amber); color: white; border: none;
+    padding: 11px 28px; border-radius: 8px;
+    font-size: 0.92rem; font-weight: 700; cursor: pointer;
+    transition: background 0.2s; align-self: flex-start;
+  }
+  .modal-submit:hover { background: var(--amber-dark); }
+
+  /* Floating button */
+  .contact-fab {
+    position: fixed; bottom: 28px; right: 28px; z-index: 998;
+    background: white; color: var(--charcoal);
+    border: 1.5px solid var(--border); border-radius: 999px;
+    padding: 10px 20px; font-size: 0.85rem; font-weight: 600;
+    cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+    display: flex; align-items: center; gap: 8px;
+    transition: box-shadow 0.2s, border-color 0.2s;
+    font-family: inherit;
+  }
+  .contact-fab:hover { border-color: var(--amber); box-shadow: 0 6px 24px rgba(22,163,74,0.15); }
+  .contact-fab .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--amber); flex-shrink: 0;
+  }
+</style>
+
+<!-- Floating button -->
+<button class="contact-fab" onclick="openContact()">
+  <span class="dot"></span> Get in touch
+</button>
+
+<!-- Modal -->
+<div id="contact-modal" class="contact-modal-overlay" onclick="if(event.target===this)closeContact()">
+  <div class="contact-modal">
+    <button class="modal-close" onclick="closeContact()">✕</button>
+    <div class="modal-title">Get in touch</div>
+    <div class="modal-sub">We'll get back to you within one business day.</div>
+    <form class="modal-form" onsubmit="handleContact(event)">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <label>Name <input type="text" placeholder="Your name" required /></label>
+        <label>Email <input type="email" placeholder="you@company.com.au" required /></label>
+      </div>
+      <label>How can we help?
+        <select>
+          <option value="">Select...</option>
+          <option>Start a lease audit</option>
+          <option>Founding Partner enquiry</option>
+          <option>Channel partner / white-label</option>
+          <option>General question</option>
+        </select>
+      </label>
+      <label>Message
+        <textarea placeholder="Tell us about your situation..."></textarea>
+      </label>
+      <button type="submit" class="modal-submit">Send message →</button>
+    </form>
+    <div id="contact-success" style="display:none;margin-top:16px;padding:12px 16px;background:#f0fdf4;border:1px solid #A7F3D0;border-radius:8px;font-size:0.88rem;color:var(--amber-dark);font-weight:600;">
+      ✓ Thanks — we'll be in touch within one business day.
+    </div>
+  </div>
+</div>
 
 </body>
 </html>

@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — TenantSentry</title>
+  <meta name="description" content="TenantSentry was built by technologists, auditors, and commercial tenants who got sick of being overcharged by their landlords." />
+  <link rel="canonical" href="https://tenantsentry.ai/about" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2316A34A'/><text y='.9em' font-size='75' x='12'>🛡</text></svg>" />
+  <style>
+    :root {
+      --amber:      #16A34A;
+      --amber-dark: #0F6B31;
+      --amber-light:#D1FAE5;
+      --gold:       #4ADE80;
+      --cream:      #f9fafb;
+      --warm-white: #f3f4f6;
+      --warm-gray:  #6B7280;
+      --charcoal:   #111827;
+      --card-bg:    #f0fdf4;
+      --border:     #d1d5db;
+      --text:       #111827;
+      --muted:      #4b5563;
+    }
+
+    html { scroll-behavior: smooth; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    a { text-decoration: none; color: inherit; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(249,250,251,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px; height: 64px;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-weight: 800; font-size: 1.2rem; color: var(--charcoal);
+    }
+    .nav-logo .shield {
+      width: 32px; height: 32px;
+      background: linear-gradient(135deg, var(--amber), var(--amber-dark));
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 16px;
+    }
+    .nav-links { display: flex; gap: 20px; list-style: none; }
+    .nav-links a { color: var(--muted); font-size: 0.85rem; font-weight: 500; transition: color 0.2s; white-space: nowrap; }
+    .nav-links a:hover, .nav-links a.active { color: var(--amber-dark); }
+    .nav-ctas { display: flex; gap: 12px; align-items: center; }
+    .btn-ghost {
+      background: none; border: none; cursor: pointer;
+      color: var(--muted); font-size: 0.92rem; font-weight: 500;
+      padding: 8px 16px; border-radius: 6px; transition: background 0.2s;
+    }
+    .btn-ghost:hover { background: var(--card-bg); }
+    .btn-primary {
+      background: var(--amber); color: white; border: none; cursor: pointer;
+      font-size: 0.92rem; font-weight: 600;
+      padding: 9px 20px; border-radius: 6px;
+      transition: background 0.2s, transform 0.1s; display: inline-block;
+    }
+    .btn-primary:hover { background: var(--amber-dark); transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 96px 24px 80px;
+      background: linear-gradient(180deg, #e9f5ef 0%, var(--cream) 100%);
+      text-align: center;
+    }
+    .section-tag {
+      font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--amber); margin-bottom: 16px;
+    }
+    h1 {
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      font-weight: 900; letter-spacing: -0.03em; line-height: 1.1;
+      color: var(--charcoal); max-width: 700px; margin: 0 auto 20px;
+    }
+    h1 em { font-style: normal; color: var(--amber); }
+    .hero p {
+      font-size: 1.15rem; color: var(--muted);
+      max-width: 520px; margin: 0 auto; line-height: 1.7;
+    }
+
+    /* ── SECTION ── */
+    section { padding: 80px 24px; }
+    .inner { max-width: 800px; margin: 0 auto; }
+
+    /* ── ORIGIN STORY ── */
+    .origin {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 48px 56px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .origin p {
+      font-size: 1.05rem; color: var(--muted); line-height: 1.85;
+      margin-bottom: 20px;
+    }
+    .origin p:last-child { margin-bottom: 0; }
+    .origin strong { color: var(--charcoal); }
+
+    /* ── TEAM PILLARS ── */
+    .pillars {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .pillar {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 24px;
+      text-align: center;
+    }
+    .pillar .icon {
+      font-size: 2rem; margin-bottom: 14px;
+    }
+    .pillar h3 {
+      font-size: 1rem; font-weight: 800;
+      color: var(--charcoal); margin-bottom: 8px;
+    }
+    .pillar p { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── VALUES ── */
+    .values { background: var(--warm-white); }
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .value-item h3 {
+      font-size: 0.95rem; font-weight: 800;
+      color: var(--charcoal); margin-bottom: 6px;
+    }
+    .value-item p { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
+    .value-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--amber); margin-bottom: 14px;
+    }
+
+    /* ── CTA ── */
+    .cta-band {
+      background: linear-gradient(135deg, var(--charcoal) 0%, #0A3320 100%);
+      padding: 72px 24px; text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .cta-band::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 700px 350px at 50% 50%, rgba(22,163,74,0.2) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-band h2 {
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 900; color: white;
+      letter-spacing: -0.03em; margin-bottom: 14px; position: relative;
+    }
+    .cta-band p { color: #86EFAC; font-size: 1rem; margin-bottom: 32px; position: relative; }
+    .cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; position: relative; }
+    .btn-cta-primary {
+      background: var(--amber); color: white; border: none; cursor: pointer;
+      font-size: 1rem; font-weight: 700; padding: 13px 28px; border-radius: 8px;
+      transition: background 0.2s; display: inline-block;
+    }
+    .btn-cta-primary:hover { background: var(--amber-dark); }
+    .btn-cta-outline {
+      background: rgba(255,255,255,0.08); color: white;
+      border: 1.5px solid rgba(255,255,255,0.2);
+      font-size: 1rem; font-weight: 600; padding: 13px 28px; border-radius: 8px;
+      transition: background 0.2s; display: inline-block;
+    }
+    .btn-cta-outline:hover { background: rgba(255,255,255,0.15); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--charcoal); color: #86EFAC;
+      padding: 48px 48px 28px;
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr repeat(3, 1fr);
+      gap: 48px; margin-bottom: 40px; max-width: 1100px; margin-left: auto; margin-right: auto;
+    }
+    .footer-brand .brand-name {
+      font-size: 1.1rem; font-weight: 800; color: white; margin-bottom: 10px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .footer-brand .shield {
+      width: 26px; height: 26px; border-radius: 6px;
+      background: linear-gradient(135deg, var(--amber), var(--amber-dark));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; color: white;
+    }
+    .footer-brand p { font-size: 0.85rem; line-height: 1.7; max-width: 240px; }
+    .footer-col h4 {
+      font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: #6EE7B7; margin-bottom: 14px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    .footer-col ul li a { color: #86EFAC; font-size: 0.85rem; transition: color 0.2s; }
+    .footer-col ul li a:hover { color: var(--amber); }
+    .footer-bottom {
+      border-top: 1px solid #052E16; padding-top: 20px;
+      max-width: 1100px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.78rem;
+    }
+    .footer-bottom a { color: #4ADE80; }
+
+    @media (max-width: 700px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .origin { padding: 32px 24px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      footer { padding: 40px 24px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="shield">🛡</div>
+    TenantSentry
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#features">Product</a></li>
+    <li><a href="index.html#how-it-works">How It Works</a></li>
+    <li><a href="index.html#pricing">Pricing</a></li>
+    <li><a href="why-tenantsentry.html">Why TenantSentry</a></li>
+    <li><a href="index.html#testimonials">Customers</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+  </ul>
+  <div class="nav-ctas">
+    <a href="index.html#contact" class="btn-ghost">Contact Us</a>
+    <a href="index.html#pricing" class="btn-primary">Get Started Free →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="section-tag">Our story</div>
+  <h1>We got tired of paying for our <em>landlord's</em> mistakes.</h1>
+  <p>So we built the tool we wished we'd had.</p>
+</div>
+
+<!-- ORIGIN STORY -->
+<section>
+  <div class="origin">
+    <p>
+      TenantSentry started with a bill that didn't add up. A landlord invoice with land tax buried in the outgoings — illegal under Victorian law, but easy to miss if you don't know where to look. Most tenants never check. We did, and we found the same pattern across dozens of leases.
+    </p>
+    <p>
+      <strong>The problem isn't bad landlords. It's information asymmetry.</strong> Landlords have property management systems, in-house accountants, and decades of billing practice on their side. Tenants have a 60-page lease PDF and a gut feeling that something's off.
+    </p>
+    <p>
+      We built TenantSentry to close that gap — combining forensic audit expertise, state legislation knowledge, and AI to give every commercial tenant the same firepower that used to cost $10,000 and six weeks with a solicitor.
+    </p>
+  </div>
+</section>
+
+<!-- TEAM PILLARS -->
+<section style="background: var(--warm-white); padding-top: 0;">
+  <div class="inner" style="text-align:center;margin-bottom:40px;">
+    <div class="section-tag">Who built this</div>
+    <h2 style="font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:900;letter-spacing:-0.03em;color:var(--charcoal);">Three perspectives. One platform.</h2>
+  </div>
+  <div class="pillars">
+    <div class="pillar">
+      <div class="icon">💻</div>
+      <h3>Technologists</h3>
+      <p>Built the AI pipeline, the RAG engine, and the Xero integration. They made the complex invisible so tenants can focus on the result, not the process.</p>
+    </div>
+    <div class="pillar">
+      <div class="icon">🔍</div>
+      <h3>Auditors</h3>
+      <p>Forensic lease auditors who've spent years manually catching the same categories of errors. Their knowledge is now embedded in every audit TenantSentry runs.</p>
+    </div>
+    <div class="pillar">
+      <div class="icon">🏪</div>
+      <h3>Tenants</h3>
+      <p>Commercial tenants who've been on the receiving end of inflated outgoings, dodgy CPI calculations, and illegal land tax charges. They know what hurts.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="values">
+  <div class="inner" style="text-align:left;margin-bottom:40px;">
+    <div class="section-tag">What we believe</div>
+    <h2 style="font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:900;letter-spacing:-0.03em;color:var(--charcoal);margin-bottom:0;">How we work.</h2>
+  </div>
+  <div class="values-grid">
+    <div class="value-item">
+      <div class="value-dot"></div>
+      <h3>Always on the tenant's side</h3>
+      <p>We have no relationship with landlords, property managers, or real estate groups. Our only incentive is finding what you're owed.</p>
+    </div>
+    <div class="value-item">
+      <div class="value-dot"></div>
+      <h3>Transparent, not black-box</h3>
+      <p>Every finding is cited to the exact lease clause and legislation that supports it. You can verify every conclusion yourself.</p>
+    </div>
+    <div class="value-item">
+      <div class="value-dot"></div>
+      <h3>You stay in control</h3>
+      <p>We surface findings and draft letters. You decide what to send. We never act on your behalf without your explicit approval.</p>
+    </div>
+    <div class="value-item">
+      <div class="value-dot"></div>
+      <h3>Built for SMEs, not just enterprise</h3>
+      <p>A single-site café owner deserves the same audit quality as a 50-site pharmacy chain. That's why we charge per lease, not per headcount.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-band">
+  <h2>Ready to audit your lease?</h2>
+  <p>Start in minutes. No legal background required.</p>
+  <div class="cta-btns">
+    <a href="index.html#pricing" class="btn-cta-primary">Get Started →</a>
+    <a href="why-tenantsentry.html" class="btn-cta-outline">See how we're different</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="brand-name">
+        <div class="shield">🛡</div>
+        TenantSentry
+      </div>
+      <p>AI-powered lease auditing for Australian commercial tenants. Find overcharges, avoid pitfalls, negotiate with confidence.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <ul>
+        <li><a href="index.html#features">Features</a></li>
+        <li><a href="index.html#how-it-works">How It Works</a></li>
+        <li><a href="index.html#pricing">Pricing</a></li>
+        <li><a href="why-tenantsentry.html">Why TenantSentry</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="about.html">About</a></li>
+        <li><a href="index.html#testimonials">Customers</a></li>
+        <li><a href="https://tenantsentry.ai/contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="https://tenantsentry.ai/privacy">Privacy Policy</a></li>
+        <li><a href="https://tenantsentry.ai/terms">Terms of Service</a></li>
+        <li><a href="https://tenantsentry.ai/security">Security</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 TenantSentry Pty Ltd · ABN 00 000 000 000 · Sydney, Australia</span>
+    <div style="display:flex;gap:20px">
+      <a href="https://tenantsentry.ai/privacy">Privacy</a>
+      <a href="https://tenantsentry.ai/terms">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ── CONTACT MODAL ── -->
+<style>
+  .contact-modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 999;
+    background: rgba(0,0,0,0.45); backdrop-filter: blur(4px);
+    align-items: center; justify-content: center; padding: 24px;
+  }
+  .contact-modal-overlay.open { display: flex; }
+  .contact-modal {
+    background: white; border-radius: 16px; padding: 40px;
+    width: 100%; max-width: 520px;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.18);
+    position: relative; animation: modalIn 0.2s ease;
+  }
+  @keyframes modalIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+  .modal-close {
+    position: absolute; top: 16px; right: 16px;
+    background: none; border: none; cursor: pointer; font-size: 1.2rem;
+    color: var(--warm-gray); width: 32px; height: 32px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center; transition: background 0.15s;
+  }
+  .modal-close:hover { background: var(--warm-white); }
+  .modal-title { font-size: 1.2rem; font-weight: 800; color: var(--charcoal); margin-bottom: 4px; }
+  .modal-sub { font-size: 0.88rem; color: var(--muted); margin-bottom: 24px; }
+  .modal-form { display: flex; flex-direction: column; gap: 14px; }
+  .modal-form label { font-size: 0.82rem; font-weight: 600; color: var(--charcoal); display: flex; flex-direction: column; gap: 5px; }
+  .modal-form input, .modal-form select, .modal-form textarea {
+    border: 1px solid var(--border); border-radius: 8px;
+    padding: 9px 13px; font-size: 0.9rem; font-family: inherit; outline: none; transition: border-color 0.15s;
+  }
+  .modal-form input:focus, .modal-form select:focus, .modal-form textarea:focus { border-color: var(--amber); }
+  .modal-form textarea { resize: vertical; min-height: 90px; }
+  .modal-submit {
+    background: var(--amber); color: white; border: none;
+    padding: 11px 28px; border-radius: 8px; font-size: 0.92rem; font-weight: 700;
+    cursor: pointer; transition: background 0.2s; align-self: flex-start;
+  }
+  .modal-submit:hover { background: var(--amber-dark); }
+  .contact-fab {
+    position: fixed; bottom: 28px; right: 28px; z-index: 998;
+    background: white; color: var(--charcoal);
+    border: 1.5px solid var(--border); border-radius: 999px;
+    padding: 10px 20px; font-size: 0.85rem; font-weight: 600;
+    cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+    display: flex; align-items: center; gap: 8px;
+    transition: box-shadow 0.2s, border-color 0.2s; font-family: inherit;
+  }
+  .contact-fab:hover { border-color: var(--amber); box-shadow: 0 6px 24px rgba(22,163,74,0.15); }
+  .contact-fab .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--amber); flex-shrink: 0; }
+</style>
+<button class="contact-fab" onclick="openContact()"><span class="dot"></span> Get in touch</button>
+<div id="contact-modal" class="contact-modal-overlay" onclick="if(event.target===this)closeContact()">
+  <div class="contact-modal">
+    <button class="modal-close" onclick="closeContact()">&#x2715;</button>
+    <div class="modal-title">Get in touch</div>
+    <div class="modal-sub">We'll get back to you within one business day.</div>
+    <form class="modal-form" onsubmit="handleContact(event)">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <label>Name <input type="text" placeholder="Your name" required /></label>
+        <label>Email <input type="email" placeholder="you@company.com.au" required /></label>
+      </div>
+      <label>How can we help?
+        <select>
+          <option value="">Select...</option>
+          <option>Start a lease audit</option>
+          <option>Founding Partner enquiry</option>
+          <option>Channel partner / white-label</option>
+          <option>General question</option>
+        </select>
+      </label>
+      <label>Message <textarea placeholder="Tell us about your situation..."></textarea></label>
+      <button type="submit" class="modal-submit">Send message &#8594;</button>
+    </form>
+    <div id="contact-success" style="display:none;margin-top:16px;padding:12px 16px;background:#f0fdf4;border:1px solid #A7F3D0;border-radius:8px;font-size:0.88rem;color:var(--amber-dark);font-weight:600;">
+      &#x2713; Thanks &mdash; we'll be in touch within one business day.
+    </div>
+  </div>
+</div>
+<script>
+  function openContact() { document.getElementById("contact-modal").classList.add("open"); document.body.style.overflow="hidden"; }
+  function closeContact() { document.getElementById("contact-modal").classList.remove("open"); document.body.style.overflow=""; }
+  function handleContact(e) { e.preventDefault(); e.target.style.display="none"; document.getElementById("contact-success").style.display="block"; }
+  document.addEventListener("keydown", function(e) { if(e.key==="Escape") closeContact(); });
+</script>
+</body>
+</html>
