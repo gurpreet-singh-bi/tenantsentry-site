@@ -21,6 +21,9 @@
   <meta name="twitter:description" content="Find outgoings overcharges, rent review errors, and compliance issues in your commercial lease — in minutes, not months." />
 
   <!-- Favicon (inline SVG shield) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2316A34A'/><text y='.9em' font-size='75' x='12'>🛡</text></svg>" />
   <style>
     :root {
@@ -28,21 +31,21 @@
       --amber-dark: #0F6B31;
       --amber-light:#D1FAE5;
       --gold:       #4ADE80;
-      --cream:      #f9fafb;
-      --warm-white: #f3f4f6;
-      --warm-gray:  #6B7280;
-      --charcoal:   #111827;
+      --cream:      #fdf9f4;
+      --warm-white: #f7f2eb;
+      --warm-gray:  #78716c;
+      --charcoal:   #1c1917;
       --card-bg:    #f0fdf4;
-      --border:     #d1d5db;
-      --text:       #111827;
-      --muted:      #4b5563;
+      --border:     #d6cfc7;
+      --text:       #1c1917;
+      --muted:      #57534e;
     }
 
     html { scroll-behavior: smooth; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--cream);
       color: var(--text);
       line-height: 1.6;
@@ -51,7 +54,7 @@
     /* ── NAV ─────────────────────────────────────────────── */
     nav {
       position: sticky; top: 0; z-index: 100;
-      background: rgba(240,253,244,0.92);
+      background: rgba(253,249,244,0.94);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       display: flex; align-items: center; justify-content: space-between;
@@ -103,8 +106,8 @@
     /* ── HERO ─────────────────────────────────────────────── */
     .hero {
       text-align: center;
-      padding: 96px 24px 80px;
-      background: linear-gradient(180deg, #e9f5ef 0%, var(--cream) 100%);
+      padding: 72px 24px 60px;
+      background: linear-gradient(180deg, #e8f0e9 0%, var(--cream) 100%);
       position: relative; overflow: hidden;
     }
 
@@ -294,7 +297,7 @@
 
     /* ── SECTION WRAPPER ─────────────────────────────────── */
     section {
-      padding: 96px 24px;
+      padding: 64px 24px;
     }
     .section-inner {
       max-width: 1100px; margin: 0 auto;
@@ -310,8 +313,8 @@
       color: var(--charcoal); margin-bottom: 16px; line-height: 1.15;
     }
     .section-sub {
-      font-size: 1.1rem; color: var(--muted);
-      max-width: 580px; line-height: 1.7; margin-bottom: 56px;
+      font-size: 1.05rem; color: var(--muted);
+      max-width: 580px; line-height: 1.7; margin-bottom: 40px;
     }
 
     /* ── FEATURE CARDS GRID ──────────────────────────────── */
@@ -321,20 +324,21 @@
     }
 
     .feat-card {
-      background: white; border: 1px solid var(--border);
-      border-radius: 16px; padding: 32px;
+      background: white;
+      border-radius: 12px; padding: 24px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
       transition: box-shadow 0.2s, transform 0.2s;
     }
     .feat-card:hover {
-      box-shadow: 0 12px 40px rgba(22,163,74,0.12);
-      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(22,163,74,0.10);
+      transform: translateY(-2px);
     }
 
     .feat-icon {
-      width: 48px; height: 48px; border-radius: 12px;
+      width: 40px; height: 40px; border-radius: 10px;
       background: var(--amber-light);
       display: flex; align-items: center; justify-content: center;
-      font-size: 22px; margin-bottom: 20px;
+      font-size: 18px; margin-bottom: 14px;
     }
 
     .feat-card h3 {
@@ -349,27 +353,31 @@
     .steps-section { background: var(--warm-white); }
 
     .steps-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
+      display: grid; grid-template-columns: repeat(4, 1fr);
       gap: 0; position: relative;
     }
     .steps-grid::before {
       content: '';
-      position: absolute; top: 40px; left: calc(16.67% + 20px); right: calc(16.67% + 20px);
+      position: absolute; top: 28px; left: calc(12.5% + 16px); right: calc(12.5% + 16px);
       height: 2px; background: linear-gradient(90deg, var(--amber-light), var(--amber), var(--amber-light));
       z-index: 0;
     }
+    @media (max-width: 720px) {
+      .steps-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+      .steps-grid::before { display: none; }
+    }
 
     .step {
-      text-align: center; padding: 0 32px; position: relative; z-index: 1;
+      text-align: center; padding: 0 20px; position: relative; z-index: 1;
     }
 
     .step-num {
-      width: 80px; height: 80px; border-radius: 50%;
+      width: 56px; height: 56px; border-radius: 50%;
       background: linear-gradient(135deg, var(--amber), var(--amber-dark));
-      color: white; font-size: 1.5rem; font-weight: 900;
+      color: white; font-size: 1.1rem; font-weight: 900;
       display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 24px;
-      box-shadow: 0 8px 24px rgba(22,163,74,0.35);
+      margin: 0 auto 18px;
+      box-shadow: 0 6px 16px rgba(22,163,74,0.30);
     }
 
     .step h3 {
@@ -419,8 +427,8 @@
     .check { color: var(--amber); font-weight: 700; }
 
     .tab-panel-visual {
-      background: var(--card-bg); border: 1px solid var(--border);
-      border-radius: 16px; padding: 28px;
+      background: var(--card-bg);
+      border-radius: 12px; padding: 24px;
     }
     .visual-row {
       display: flex; justify-content: space-between; align-items: center;
@@ -448,8 +456,9 @@
     }
 
     .testi-card {
-      background: white; border: 1px solid var(--border); border-radius: 16px;
-      padding: 32px; position: relative;
+      background: white; border-radius: 12px;
+      padding: 24px; position: relative;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
     }
 
     .quote-mark {
@@ -478,8 +487,9 @@
     }
 
     .price-card {
-      background: white; border: 1px solid var(--border);
-      border-radius: 16px; padding: 32px;
+      background: white;
+      border-radius: 12px; padding: 24px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
     }
     .price-card.featured {
       background: linear-gradient(160deg, #e9f5ef, white);
@@ -526,7 +536,7 @@
     /* ── CTA BAND ─────────────────────────────────────────── */
     .cta-band {
       background: linear-gradient(135deg, var(--charcoal) 0%, #0A3320 100%);
-      padding: 80px 24px; text-align: center; position: relative; overflow: hidden;
+      padding: 56px 24px; text-align: center; position: relative; overflow: hidden;
     }
     .cta-band::before {
       content: '';
@@ -565,7 +575,7 @@
     /* ── FOOTER ───────────────────────────────────────────── */
     footer {
       background: var(--charcoal); color: #86EFAC;
-      padding: 64px 48px 32px;
+      padding: 48px 32px 24px;
     }
     .footer-grid {
       display: grid; grid-template-columns: 2fr repeat(3, 1fr);
@@ -779,24 +789,29 @@
 <section id="how-it-works" class="steps-section">
   <div class="section-inner" style="text-align:center">
     <div class="section-tag">How it works</div>
-    <h2 class="section-heading" style="margin-bottom:8px">Three steps to lease clarity</h2>
-    <p class="section-sub" style="margin:0 auto 64px">No legal jargon, no lengthy briefings. Upload and go.</p>
+    <h2 class="section-heading" style="margin-bottom:8px">Four steps to a clean audit</h2>
+    <p class="section-sub" style="margin:0 auto 48px">No legal jargon, no lengthy briefings. Upload your documents and we do the rest.</p>
 
     <div class="steps-grid">
       <div class="step">
         <div class="step-num">1</div>
         <h3>Upload Your Lease</h3>
-        <p>Drop in your lease PDF, DOCX, or paste the text. TenantSentry handles any format — even scanned documents via OCR.</p>
+        <p>Drop in your lease PDF or DOCX. TenantSentry reads every clause, schedule, and annexure — including scanned documents via OCR.</p>
       </div>
       <div class="step">
         <div class="step-num">2</div>
-        <h3>AI Runs the Audit</h3>
-        <p>Our AI cross-references every clause against Australian legislation, market benchmarks, and 10,000+ audited leases in our database.</p>
+        <h3>Upload Your Invoices</h3>
+        <p>Add your landlord's rent invoices and EOFY outgoings statements. These are the documents where overcharges actually hide.</p>
       </div>
       <div class="step">
         <div class="step-num">3</div>
-        <h3>Act on the Report</h3>
-        <p>Receive a prioritised findings report with exact clause references, risk ratings, and negotiation talking points ready to use.</p>
+        <h3>AI Audits Everything</h3>
+        <p>Our AI cross-checks every invoice line against your lease terms, ABS CPI data, land tax schedules, and the applicable state Retail Leases Act.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>Act on the Findings</h3>
+        <p>Receive a prioritised report with clause references and a ready-to-send dispute letter. Invoice line items are written back to Xero automatically.</p>
       </div>
     </div>
   </div>
@@ -1054,195 +1069,4 @@
   <h2>Stop overpaying on your lease.</h2>
   <p>Upload your first lease and get a free audit report — no credit card required.</p>
   <div class="cta-band-btns">
-    <a href="https://tenantsentry.ai/audit" class="btn-cta-primary" style="text-decoration:none">Audit My Lease Free →</a>
-    <a href="#" onclick="openContact();return false;" class="btn-cta-outline" style="text-decoration:none">Contact Us</a>
-  </div>
-</div>
-
-<!-- ── FOOTER ─────────────────────────────────────── -->
-<footer>
-  <div class="footer-grid">
-    <div class="footer-brand">
-      <div class="brand-name">
-        <div class="shield">🛡</div>
-        TenantSentry
-      </div>
-      <p>AI-powered lease auditing for Australian commercial tenants. Find overcharges, avoid pitfalls, negotiate with confidence.</p>
-    </div>
-    <div class="footer-col">
-      <h4>Product</h4>
-      <ul>
-        <li><a href="https://tenantsentry.ai/audit">Lease Audit</a></li>
-        <li><a href="https://tenantsentry.ai/outgoings">Outgoings Checker</a></li>
-        <li><a href="https://tenantsentry.ai/rent-review">Rent Review Monitor</a></li>
-        <li><a href="https://tenantsentry.ai/alerts">Critical Date Alerts</a></li>
-        <li><a href="https://tenantsentry.ai/benchmarking">Market Benchmarking</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Resources</h4>
-      <ul>
-        <li><a href="https://tenantsentry.ai/resources/lease-guide">Lease Guide (AU)</a></li>
-        <li><a href="https://tenantsentry.ai/resources/retail-leases-act">Retail Leases Act Hub</a></li>
-        <li><a href="https://tenantsentry.ai/blog">Blog</a></li>
-        <li><a href="https://tenantsentry.ai/case-studies">Case Studies</a></li>
-        <li><a href="https://tenantsentry.ai/faq">FAQ</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Company</h4>
-      <ul>
-        <li><a href="about.html">About</a></li>
-        <li><a href="https://tenantsentry.ai/pricing">Pricing</a></li>
-        <li><a href="https://tenantsentry.ai/contact">Contact</a></li>
-        <li><a href="https://tenantsentry.ai/privacy">Privacy Policy</a></li>
-        <li><a href="https://tenantsentry.ai/terms">Terms of Service</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span>© 2026 TenantSentry Pty Ltd · ABN 00 000 000 000 · Sydney, Australia</span>
-    <div style="display:flex;gap:20px">
-      <a href="https://tenantsentry.ai/privacy">Privacy</a>
-      <a href="https://tenantsentry.ai/terms">Terms</a>
-      <a href="https://tenantsentry.ai/security">Security</a>
-    </div>
-  </div>
-</footer>
-
-<script>
-  function switchTab(name) {
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('tab-' + name).classList.add('active');
-    event.currentTarget.classList.add('active');
-  }
-  function openContact() {
-    document.getElementById('contact-modal').classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeContact() {
-    document.getElementById('contact-modal').classList.remove('open');
-    document.body.style.overflow = '';
-  }
-  function handleContact(e) {
-    e.preventDefault();
-    e.target.style.display = 'none';
-    document.getElementById('contact-success').style.display = 'block';
-  }
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeContact(); });
-</script>
-
-<!-- ── CONTACT MODAL ── -->
-<style>
-  .contact-modal-overlay {
-    display: none; position: fixed; inset: 0; z-index: 999;
-    background: rgba(0,0,0,0.45); backdrop-filter: blur(4px);
-    align-items: center; justify-content: center; padding: 24px;
-  }
-  .contact-modal-overlay.open { display: flex; }
-  .contact-modal {
-    background: white; border-radius: 16px;
-    padding: 40px; width: 100%; max-width: 520px;
-    box-shadow: 0 24px 64px rgba(0,0,0,0.18);
-    position: relative; animation: modalIn 0.2s ease;
-  }
-  @keyframes modalIn {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .modal-close {
-    position: absolute; top: 16px; right: 16px;
-    background: none; border: none; cursor: pointer;
-    font-size: 1.2rem; color: var(--warm-gray);
-    width: 32px; height: 32px; border-radius: 6px;
-    display: flex; align-items: center; justify-content: center;
-    transition: background 0.15s;
-  }
-  .modal-close:hover { background: var(--warm-white); }
-  .modal-title {
-    font-size: 1.2rem; font-weight: 800;
-    color: var(--charcoal); margin-bottom: 4px;
-  }
-  .modal-sub { font-size: 0.88rem; color: var(--muted); margin-bottom: 24px; }
-  .modal-form { display: flex; flex-direction: column; gap: 14px; }
-  .modal-form label {
-    font-size: 0.82rem; font-weight: 600; color: var(--charcoal);
-    display: flex; flex-direction: column; gap: 5px;
-  }
-  .modal-form input,
-  .modal-form select,
-  .modal-form textarea {
-    border: 1px solid var(--border); border-radius: 8px;
-    padding: 9px 13px; font-size: 0.9rem;
-    font-family: inherit; outline: none;
-    transition: border-color 0.15s;
-  }
-  .modal-form input:focus,
-  .modal-form select:focus,
-  .modal-form textarea:focus { border-color: var(--amber); }
-  .modal-form textarea { resize: vertical; min-height: 90px; }
-  .modal-submit {
-    background: var(--amber); color: white; border: none;
-    padding: 11px 28px; border-radius: 8px;
-    font-size: 0.92rem; font-weight: 700; cursor: pointer;
-    transition: background 0.2s; align-self: flex-start;
-  }
-  .modal-submit:hover { background: var(--amber-dark); }
-
-  /* Floating button */
-  .contact-fab {
-    position: fixed; bottom: 28px; right: 28px; z-index: 998;
-    background: white; color: var(--charcoal);
-    border: 1.5px solid var(--border); border-radius: 999px;
-    padding: 10px 20px; font-size: 0.85rem; font-weight: 600;
-    cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.10);
-    display: flex; align-items: center; gap: 8px;
-    transition: box-shadow 0.2s, border-color 0.2s;
-    font-family: inherit;
-  }
-  .contact-fab:hover { border-color: var(--amber); box-shadow: 0 6px 24px rgba(22,163,74,0.15); }
-  .contact-fab .dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--amber); flex-shrink: 0;
-  }
-</style>
-
-<!-- Floating button -->
-<button class="contact-fab" onclick="openContact()">
-  <span class="dot"></span> Get in touch
-</button>
-
-<!-- Modal -->
-<div id="contact-modal" class="contact-modal-overlay" onclick="if(event.target===this)closeContact()">
-  <div class="contact-modal">
-    <button class="modal-close" onclick="closeContact()">✕</button>
-    <div class="modal-title">Get in touch</div>
-    <div class="modal-sub">We'll get back to you within one business day.</div>
-    <form class="modal-form" onsubmit="handleContact(event)">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-        <label>Name <input type="text" placeholder="Your name" required /></label>
-        <label>Email <input type="email" placeholder="you@company.com.au" required /></label>
-      </div>
-      <label>How can we help?
-        <select>
-          <option value="">Select...</option>
-          <option>Start a lease audit</option>
-          <option>Founding Partner enquiry</option>
-          <option>Channel partner / white-label</option>
-          <option>General question</option>
-        </select>
-      </label>
-      <label>Message
-        <textarea placeholder="Tell us about your situation..."></textarea>
-      </label>
-      <button type="submit" class="modal-submit">Send message →</button>
-    </form>
-    <div id="contact-success" style="display:none;margin-top:16px;padding:12px 16px;background:#f0fdf4;border:1px solid #A7F3D0;border-radius:8px;font-size:0.88rem;color:var(--amber-dark);font-weight:600;">
-      ✓ Thanks — we'll be in touch within one business day.
-    </div>
-  </div>
-</div>
-
-</body>
-</html>
+    <a hr
