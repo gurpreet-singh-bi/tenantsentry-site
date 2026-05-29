@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Why TenantSentry — How We're Different | TenantSentry.ai</title>
+  <meta name="description" content="Every other lease platform works for your landlord. TenantSentry is the only AI tool purpose-built to audit what Australian tenants are billed." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://tenantsentry.ai/why-tenantsentry" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2316A34A'/><text y='.9em' font-size='75' x='12'>🛡</text></svg>" />
+
+  <style>
+    :root {
+      --amber:      #16A34A;
+      --amber-dark: #0F6B31;
+      --amber-light:#BBF7D0;
+      --gold:       #4ADE80;
+      --cream:      #F0FDF4;
+      --warm-white: #ECFDF5;
+      --warm-gray:  #6B7280;
+      --charcoal:   #052E16;
+      --card-bg:    #DCFCE7;
+      --border:     #A7F3D0;
+      --text:       #1C3829;
+      --muted:      #374151;
+    }
+
+    html { scroll-behavior: smooth; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ── NAV ─────────────────────────────────────────────── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(240,253,244,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 64px;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-weight: 800; font-size: 1.2rem; color: var(--charcoal);
+    }
+    .nav-logo .shield {
+      width: 32px; height: 32px;
+      background: linear-gradient(135deg, var(--amber), var(--amber-dark));
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 16px;
+    }
+    .nav-links {
+      display: flex; gap: 32px; list-style: none;
+    }
+    .nav-links a {
+      color: var(--muted); font-size: 0.92rem; font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--amber-dark); }
+    .nav-links a.active { color: var(--amber-dark); font-weight: 700; }
+    .nav-ctas { display: flex; gap: 12px; align-items: center; }
+    .btn-ghost {
+      background: none; border: none; cursor: pointer;
+      color: var(--muted); font-size: 0.92rem; font-weight: 500;
+      padding: 8px 16px; border-radius: 6px;
+      transition: background 0.2s;
+    }
+    .btn-ghost:hover { background: var(--card-bg); }
+    .btn-primary {
+      background: var(--amber); color: white; border: none; cursor: pointer;
+      font-size: 0.92rem; font-weight: 600;
+      padding: 9px 20px; border-radius: 6px;
+      transition: background 0.2s, transform 0.1s;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--amber-dark); transform: translateY(-1px); }
+
+    /* ── SECTION WRAPPER ─────────────────────────────────── */
+    section { padding: 96px 24px; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-tag {
+      font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--amber); margin-bottom: 16px;
+    }
+    .section-heading {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 900; letter-spacing: -0.03em;
+      color: var(--charcoal); margin-bottom: 16px; line-height: 1.15;
+    }
+    .section-sub {
+      font-size: 1.1rem; color: var(--muted);
+      max-width: 580px; line-height: 1.7; margin-bottom: 56px;
+    }
+
+    /* ── HERO ─────────────────────────────────────────────── */
+    .hero {
+      text-align: center; padding: 96px 24px 80px;
+      background: linear-gradient(180deg, #D1FAE5 0%, var(--cream) 100%);
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 800px 400px at 50% 0%, rgba(22,163,74,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--amber-light); color: var(--amber-dark);
+      font-size: 0.82rem; font-weight: 600;
+      padding: 6px 14px; border-radius: 999px;
+      margin-bottom: 28px; border: 1px solid #6EE7B7;
+      position: relative;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 900; letter-spacing: -0.03em; line-height: 1.1;
+      color: var(--charcoal); max-width: 760px; margin: 0 auto 24px;
+      position: relative;
+    }
+    .hero h1 .highlight { color: var(--amber); }
+    .hero p {
+      font-size: 1.15rem; color: var(--muted);
+      max-width: 540px; margin: 0 auto 40px; line-height: 1.7;
+      position: relative;
+    }
+    .hero-ctas {
+      display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+      position: relative;
+    }
+    .btn-hero-primary {
+      background: var(--amber); color: white; border: none; cursor: pointer;
+      font-size: 1rem; font-weight: 700; padding: 14px 32px; border-radius: 8px;
+      transition: background 0.2s, transform 0.1s; display: inline-block;
+    }
+    .btn-hero-primary:hover { background: var(--amber-dark); transform: translateY(-2px); }
+    .btn-hero-outline {
+      background: white; color: var(--charcoal);
+      border: 1.5px solid var(--border); cursor: pointer;
+      font-size: 1rem; font-weight: 600; padding: 14px 32px; border-radius: 8px;
+      transition: border-color 0.2s, transform 0.1s; display: inline-block;
+    }
+    .btn-hero-outline:hover { border-color: var(--amber); color: var(--amber-dark); transform: translateY(-2px); }
+
+    /* ── CATEGORY CARDS ─────────────────────────────────── */
+    .cat-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .cat-card {
+      background: white; border: 1px solid var(--border);
+      border-radius: 16px; padding: 32px;
+      border-top: 4px solid #FECACA;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .cat-card:hover { box-shadow: 0 12px 40px rgba(22,163,74,0.08); transform: translateY(-2px); }
+    .feat-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: #FEF2F2;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; margin-bottom: 20px;
+    }
+    .cat-card h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 6px; color: var(--charcoal); }
+    .cat-examples { font-size: 0.8rem; color: var(--warm-gray); font-style: italic; margin-bottom: 12px; }
+    .cat-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.65; }
+    .verdict {
+      display: inline-block; margin-top: 16px;
+      background: #FEF2F2; color: #DC2626;
+      font-size: 0.75rem; font-weight: 700;
+      padding: 4px 12px; border-radius: 999px;
+    }
+
+    /* ── GAP DIAGRAM ────────────────────────────────────── */
+    .gap-diagram {
+      display: grid; grid-template-columns: 1fr auto 1fr auto 1fr;
+      border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
+      max-width: 960px;
+    }
+    .gap-col { padding: 28px 24px; background: white; }
+    .gap-col.ts {
+      background: linear-gradient(160deg, var(--charcoal), #0A3320);
+      color: white;
+    }
+    .gap-arrow {
+      display: flex; align-items: center; justify-content: center;
+      padding: 0 14px; background: var(--card-bg);
+      border-left: 1px solid var(--border); border-right: 1px solid var(--border);
+      font-size: 20px; color: var(--amber);
+    }
+    .gap-col h4 {
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--warm-gray); margin-bottom: 10px;
+    }
+    .gap-col.ts h4 { color: #6EE7B7; }
+    .gap-col .col-title { font-size: 1rem; font-weight: 800; margin-bottom: 14px; color: var(--charcoal); }
+    .gap-col.ts .col-title { color: white; }
+    .gap-col ul { list-style: none; }
+    .gap-col ul li { font-size: 0.88rem; color: var(--muted); padding: 4px 0; display: flex; gap: 8px; }
+    .gap-col ul li::before { content: "→"; color: var(--border); flex-shrink: 0; }
+    .gap-col.ts ul li { color: #A7F3D0; }
+    .gap-col.ts ul li::before { content: "✓"; color: var(--amber); }
+
+    /* ── FEATURE MATRIX ─────────────────────────────────── */
+    .matrix-wrap { overflow-x: auto; border-radius: 16px; border: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; min-width: 700px; }
+    thead th {
+      background: var(--charcoal); color: white;
+      padding: 16px; text-align: center;
+      font-size: 0.8rem; font-weight: 700;
+    }
+    thead th:first-child { text-align: left; }
+    thead th.ts-col { background: var(--amber); }
+    thead th small { font-weight: 400; opacity: 0.65; display: block; margin-top: 2px; font-size: 0.75rem; }
+    tbody tr:nth-child(even) { background: var(--warm-white); }
+    tbody tr:hover { background: var(--card-bg); }
+    tbody td {
+      padding: 13px 16px; border-bottom: 1px solid var(--border);
+      text-align: center; color: var(--muted); font-size: 0.88rem;
+    }
+    tbody td:first-child { text-align: left; font-weight: 700; color: var(--charcoal); font-size: 0.92rem; }
+    tbody td.ts-col { color: var(--amber-dark); font-weight: 700; background: #D1FAE5; }
+    .yes  { color: var(--amber-dark); font-weight: 700; }
+    .no   { color: #DC2626; }
+    .part { color: #B45309; }
+
+    /* ── DIFFERENTIATORS ────────────────────────────────── */
+    .diff-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;
+    }
+    .diff-card {
+      background: white; border: 1px solid var(--border);
+      border-radius: 16px; padding: 32px;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .diff-card:hover { box-shadow: 0 12px 40px rgba(22,163,74,0.12); transform: translateY(-3px); }
+    .diff-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: var(--amber-light);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; margin-bottom: 8px;
+    }
+    .diff-num {
+      font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--amber); margin-bottom: 12px;
+    }
+    .diff-card h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 10px; color: var(--charcoal); }
+    .diff-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.65; }
+
+    /* ── WHY COMPETITORS CAN'T ──────────────────────────── */
+    .reason-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;
+    }
+    .reason-card {
+      background: white; border: 1px solid var(--border); border-radius: 16px; padding: 28px;
+    }
+    .reason-card h3 { font-size: 0.98rem; font-weight: 800; margin-bottom: 10px; color: var(--charcoal); }
+    .reason-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.65; }
+
+    /* ── CTA BAND ─────────────────────────────────────────── */
+    .cta-band {
+      background: linear-gradient(135deg, var(--charcoal) 0%, #0A3320 100%);
+      padding: 80px 24px; text-align: center; position: relative; overflow: hidden;
+    }
+    .cta-band::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 700px 350px at 50% 50%, rgba(22,163,74,0.25) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-band h2 {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 900; color: white;
+      letter-spacing: -0.03em; margin-bottom: 16px; position: relative;
+    }
+    .cta-band p { color: #86EFAC; font-size: 1.1rem; margin-bottom: 40px; position: relative; }
+    .cta-band-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; position: relative; }
+    .btn-cta-primary {
+      background: var(--amber); color: white; border: none; cursor: pointer;
+      font-size: 1rem; font-weight: 700; padding: 14px 32px; border-radius: 8px;
+      transition: background 0.2s, transform 0.1s; display: inline-block;
+    }
+    .btn-cta-primary:hover { background: var(--gold); color: #052E16; transform: translateY(-2px); }
+    .btn-cta-outline {
+      background: rgba(255,255,255,0.08); color: white;
+      border: 1.5px solid rgba(255,255,255,0.2); cursor: pointer;
+      font-size: 1rem; font-weight: 600; padding: 14px 32px; border-radius: 8px;
+      transition: background 0.2s, transform 0.1s; display: inline-block;
+    }
+    .btn-cta-outline:hover { background: rgba(255,255,255,0.15); transform: translateY(-2px); }
+
+    /* ── FOOTER ───────────────────────────────────────────── */
+    footer {
+      background: var(--charcoal); color: #86EFAC;
+      padding: 64px 48px 32px;
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr repeat(3, 1fr);
+      gap: 48px; margin-bottom: 48px; max-width: 1100px; margin-left: auto; margin-right: auto;
+    }
+    .footer-brand .brand-name {
+      font-size: 1.1rem; font-weight: 800; color: white; margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .footer-brand .shield {
+      width: 28px; height: 28px; border-radius: 6px;
+      background: linear-gradient(135deg, var(--amber), var(--amber-dark));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; color: white;
+    }
+    .footer-brand p { font-size: 0.88rem; line-height: 1.7; max-width: 240px; }
+    .footer-col h4 {
+      font-size: 0.78rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: #6EE7B7; margin-bottom: 16px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul li a { color: #86EFAC; font-size: 0.88rem; transition: color 0.2s; }
+    .footer-col ul li a:hover { color: var(--amber); }
+    .footer-bottom {
+      border-top: 1px solid #052E16; padding-top: 24px;
+      max-width: 1100px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.8rem;
+    }
+    .footer-bottom a { color: #4ADE80; }
+    .footer-bottom a:hover { color: var(--amber); }
+
+    @media (max-width: 720px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .gap-diagram { grid-template-columns: 1fr; }
+      .gap-arrow { padding: 10px; border: none; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      footer { padding: 48px 24px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ─────────────────────────────────────────── -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="shield">🛡</div>
+    TenantSentry.ai
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#features">Product</a></li>
+    <li><a href="index.html#how-it-works">How It Works</a></li>
+    <li><a href="index.html#pricing">Pricing</a></li>
+    <li><a href="why-tenantsentry.html" class="active">Why TenantSentry</a></li>
+    <li><a href="index.html#testimonials">Customers</a></li>
+  </ul>
+  <div class="nav-ctas">
+    <a href="index.html#pricing" class="btn-ghost">Sign In</a>
+    <a href="index.html#pricing" class="btn-primary">Get Started Free →</a>
+  </div>
+</nav>
+
+<!-- ── HERO ─────────────────────────────────────────── -->
+<div class="hero">
+  <div class="hero-badge">How we're different</div>
+  <h1>Every other platform works<br>for your <span class="highlight">landlord</span>. We don't.</h1>
+  <p>The Australian PropTech market is full of lease software. None of it was purpose-built to protect you as a tenant. TenantSentry was.</p>
+  <div class="hero-ctas">
+    <a href="index.html#pricing" class="btn-hero-primary">Start Your $399 Audit →</a>
+    <a href="index.html#pricing" class="btn-hero-outline">See a Live Demo</a>
+  </div>
+</div>
+
+<!-- ── 3 CATEGORIES ──────────────────────────────────── -->
+<section style="background: white;">
+  <div class="section-inner">
+    <div class="section-tag">The problem with existing tools</div>
+    <h2 class="section-heading">Three types of software<br>that don't protect you.</h2>
+    <p class="section-sub">Before TenantSentry, tenants had three options. None of them were designed to find overcharges on your behalf.</p>
+
+    <div class="cat-grid">
+
+      <div class="cat-card">
+        <div class="feat-icon">🏢</div>
+        <h3>Landlord ERPs &amp; Property Platforms</h3>
+        <p class="cat-examples">Re-Leased · Cirrus8 · Rex · Property Tree · Yardi</p>
+        <p>These systems automate rent collection, outgoings billing, and landlord reporting. They're excellent — for landlords. They have zero financial incentive to flag an invoice error in your favour.</p>
+        <span class="verdict">Built to maximise landlord revenue</span>
+      </div>
+
+      <div class="cat-card">
+        <div class="feat-icon">📊</div>
+        <h3>Enterprise Lease Accounting &amp; AASB 16 Tools</h3>
+        <p class="cat-examples">Accurait.ai · LeaseEagle · Visual Lease · Cradle · BDO Lead</p>
+        <p>These tools abstract your lease clauses for AASB 16 compliance. They know what your lease <em>says</em> — but they never ingest your invoices to check whether you're actually being billed correctly.</p>
+        <span class="verdict">Compliance tools, not billing guards</span>
+      </div>
+
+      <div class="cat-card">
+        <div class="feat-icon">🔍</div>
+        <h3>Boutique Forensic Auditors &amp; Tenant Reps</h3>
+        <p class="cat-examples">A1 Audits · Tenant CS · S King Advisory</p>
+        <p>Human experts who genuinely work for you — but they're expensive, slow, and reactive. Contingency fees of 15–30% of recovered cash mean they only get called in after the damage is done.</p>
+        <span class="verdict">Manual, costly &amp; one-time only</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── GAP DIAGRAM ───────────────────────────────────── -->
+<section style="background: var(--cream);">
+  <div class="section-inner">
+    <div class="section-tag">The auditing gap</div>
+    <h2 class="section-heading">The gap every other tool ignores.</h2>
+    <p class="section-sub">There's a space between what your lease says and what you're actually billed. That gap is where overcharges live. TenantSentry is the only platform that closes it.</p>
+
+    <div class="gap-diagram">
+      <div class="gap-col">
+        <h4>What your lease says</h4>
+        <div class="col-title">Lease accounting tools</div>
+        <ul>
+          <li>Abstracts lease clauses</li>
+          <li>AASB 16 balance sheet compliance</li>
+          <li>Stores rent review schedules</li>
+          <li>No invoice ingestion</li>
+        </ul>
+      </div>
+      <div class="gap-arrow">→</div>
+      <div class="gap-col ts">
+        <h4>The gap — closed by TenantSentry</h4>
+        <div class="col-title">TenantSentry AI</div>
+        <ul>
+          <li>Ingests your invoices &amp; lease</li>
+          <li>Compares clause vs. charge</li>
+          <li>Validates against state legislation</li>
+          <li>Auto-drafts dispute letters</li>
+        </ul>
+      </div>
+      <div class="gap-arrow">←</div>
+      <div class="gap-col">
+        <h4>What you're billed</h4>
+        <div class="col-title">Landlord platforms</div>
+        <ul>
+          <li>Generates outgoings invoices</li>
+          <li>Tracks payments received</li>
+          <li>Manages landlord statements</li>
+          <li>No tenant-side validation</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURE MATRIX ────────────────────────────────── -->
+<section style="background: white;">
+  <div class="section-inner">
+    <div class="section-tag">Feature comparison</div>
+    <h2 class="section-heading">How TenantSentry stacks up.</h2>
+    <p class="section-sub">A direct look at what each category of tool can — and can't — do for you as a tenant.</p>
+
+    <div class="matrix-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Capability</th>
+            <th>Landlord ERPs<small>Re-Leased, Cirrus8</small></th>
+            <th>AASB 16 Tools<small>Accurait, LeaseEagle</small></th>
+            <th>Boutique Auditors<small>A1, Tenant CS</small></th>
+            <th class="ts-col">TenantSentry ✦</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Works for the tenant</td>
+            <td class="no">✗ No</td>
+            <td class="no">✗ No</td>
+            <td class="yes">✓ Yes</td>
+            <td class="ts-col yes">✓ Yes</td>
+          </tr>
+          <tr>
+            <td>AI lease abstraction</td>
+            <td class="no">✗ No</td>
+            <td class="yes">✓ Yes</td>
+            <td class="part">~ Manual</td>
+            <td class="ts-col yes">✓ Yes</td>
+          </tr>
+          <tr>
+            <td>Audits landlord invoices</td>
+            <td class="no">✗ No</td>
+            <td class="no">✗ No</td>
+            <td class="part">~ Manual</td>
+            <td class="ts-col yes">✓ Automated</td>
+          </tr>
+          <tr>
+            <td>Audits EOFY outgoings statements</td>
+            <td class="no">✗ No</td>
+            <td class="no">✗ No</td>
+            <td class="part">~ Manual</td>
+            <td class="ts-col yes">✓ Automated</td>
+          </tr>
+          <tr>
+            <td>Australian state law compliance</td>
+            <td class="no">✗ No</td>
+            <td class="no">✗ No</td>
+            <td class="yes">✓ Human expert</td>
+            <td class="ts-col yes">✓ Embedded RAG</td>
+          </tr>
+          <tr>
+            <td>Live ABS CPI &amp; land tax data</td>
+            <td class="no">✗ No</td>
+            <td class="part">~ Limited</td>
+            <td class="part">~ Manual check</td>
+            <td class="ts-col yes">✓ Automated API</td>
+          </tr>
+          <tr>
+            <td>Auto-generated dispute letters</td>
+            <td class="no">✗ No</td>
+            <td class="no">✗ No</td>
+            <td class="no">✗ No (manual)</td>
+            <td class="ts-col yes">✓ AI-drafted</td>
+          </tr>
+          <tr>
+            <td>Ongoing monthly monitoring</td>
+            <td class="no">✗ No</td>
+            <td class="no">✗ No</td>
+            <td class="no">✗ No</td>
+            <td class="ts-col yes">✓ Included</td>
+          </tr>
+          <tr>
+            <td>Accessible pricing</td>
+            <td class="part">High SaaS</td>
+            <td class="part">Enterprise only</td>
+            <td class="no">15–30% contingency</td>
+            <td class="ts-col yes">From $399 audit</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ── DIFFERENTIATORS ───────────────────────────────── -->
+<section style="background: var(--cream);">
+  <div class="section-inner">
+    <div class="section-tag">Core IP</div>
+    <h2 class="section-heading">Three things only<br>TenantSentry does.</h2>
+    <p class="section-sub">These are the capabilities that took years to build and can't be replicated with a generic AI wrapper.</p>
+
+    <div class="diff-grid">
+      <div class="diff-card">
+        <div class="diff-icon">🧮</div>
+        <div class="diff-num">01 — Transactional Audit Engine</div>
+        <h3>Invoice vs. lease, line by line</h3>
+        <p>We ingest your actual PDF invoices and EOFY statements and cross-check every line item against your lease. Not a document summary — a genuine financial reconciliation, automated to the cent.</p>
+      </div>
+      <div class="diff-card">
+        <div class="diff-icon">⚖️</div>
+        <div class="diff-num">02 — State Legislation RAG Pipeline</div>
+        <h3>Australian law, embedded in the AI</h3>
+        <p>We've embedded the Retail Leases Acts for VIC, NSW, and QLD into our AI engine. When Victorian land tax recovery rules change, or NSW legislation shifts, our system catches what generic tools miss.</p>
+      </div>
+      <div class="diff-card">
+        <div class="diff-icon">✉️</div>
+        <div class="diff-num">03 — Instant Dispute Letters</div>
+        <h3>Cited, ready to send</h3>
+        <p>When we find an error, we generate a dispute letter citing the exact clause of your lease and the relevant state legislation. You review, approve, and send — we never act without your sign-off.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHY COMPETITORS CAN'T ─────────────────────────── -->
+<section style="background: white;">
+  <div class="section-inner">
+    <div class="section-tag">The structural reason</div>
+    <h2 class="section-heading">Why hasn't someone<br>already built this?</h2>
+    <p class="section-sub">It's not an oversight. There are structural conflicts of interest that prevent the incumbents from ever building what TenantSentry does.</p>
+
+    <div class="reason-grid">
+      <div class="reason-card">
+        <div style="font-size:22px;margin-bottom:12px;">🏢</div>
+        <h3>Re-Leased &amp; Cirrus8 can't</h3>
+        <p>Their paying customers are landlords and property managers. A tenant-side auditing tool would flag errors that directly reduce their clients' revenue. They'd lose their entire customer base to build it.</p>
+      </div>
+      <div class="reason-card">
+        <div style="font-size:22px;margin-bottom:12px;">📊</div>
+        <h3>Accurait &amp; LeaseEagle won't</h3>
+        <p>They sell to corporate controllers who need clean balance sheets for auditors. That buyer doesn't care about clawing back $8,000 in illegal land tax — they care about AASB 16 compliance. Different problem entirely.</p>
+      </div>
+      <div class="reason-card">
+        <div style="font-size:22px;margin-bottom:12px;">🔍</div>
+        <h3>Boutique auditors can't scale</h3>
+        <p>They have the tenant-side alignment but not the software engineering capability. Their business model depends on high-value, low-volume engagements — not a $399 automated audit accessible to every SME.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA BAND ───────────────────────────────────────── -->
+<div class="cta-band">
+  <h2>Ready to see what you've been overcharged?</h2>
+  <p>Upload your lease and your latest landlord invoice — TenantSentry does the rest.</p>
+  <div class="cta-band-btns">
+    <a href="index.html#pricing" class="btn-cta-primary">Start Your $399 Audit →</a>
+    <a href="index.html#pricing" class="btn-cta-outline">Book a Demo</a>
+  </div>
+</div>
+
+<!-- ── FOOTER ─────────────────────────────────────── -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="brand-name">
+        <div class="shield">🛡</div>
+        TenantSentry.ai
+      </div>
+      <p>AI-powered lease auditing for Australian commercial tenants. Find overcharges, avoid pitfalls, negotiate with confidence.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <ul>
+        <li><a href="https://tenantsentry.ai/audit">Lease Audit</a></li>
+        <li><a href="https://tenantsentry.ai/outgoings">Outgoings Checker</a></li>
+        <li><a href="https://tenantsentry.ai/rent-review">Rent Review Monitor</a></li>
+        <li><a href="https://tenantsentry.ai/alerts">Critical Date Alerts</a></li>
+        <li><a href="why-tenantsentry.html">Why TenantSentry</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="https://tenantsentry.ai/resources/lease-guide">Lease Guide (AU)</a></li>
+        <li><a href="https://tenantsentry.ai/resources/retail-leases-act">Retail Leases Act Hub</a></li>
+        <li><a href="https://tenantsentry.ai/blog">Blog</a></li>
+        <li><a href="https://tenantsentry.ai/case-studies">Case Studies</a></li>
+        <li><a href="https://tenantsentry.ai/faq">FAQ</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="https://tenantsentry.ai/about">About</a></li>
+        <li><a href="index.html#pricing">Pricing</a></li>
+        <li><a href="https://tenantsentry.ai/contact">Contact</a></li>
+        <li><a href="https://tenantsentry.ai/privacy">Privacy Policy</a></li>
+        <li><a href="https://tenantsentry.ai/terms">Terms of Service</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 TenantSentry Pty Ltd · ABN 00 000 000 000 · Sydney, Australia</span>
+    <div style="display:flex;gap:20px">
+      <a href="https://tenantsentry.ai/privacy">Privacy</a>
+      <a href="https://tenantsentry.ai/terms">Terms</a>
+      <a href="https://tenantsentry.ai/security">Security</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
