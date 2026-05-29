@@ -26,16 +26,16 @@
     :root {
       --amber:      #16A34A;
       --amber-dark: #0F6B31;
-      --amber-light:#BBF7D0;
+      --amber-light:#D1FAE5;
       --gold:       #4ADE80;
-      --cream:      #F0FDF4;
-      --warm-white: #ECFDF5;
+      --cream:      #f9fafb;
+      --warm-white: #f3f4f6;
       --warm-gray:  #6B7280;
-      --charcoal:   #052E16;
-      --card-bg:    #DCFCE7;
-      --border:     #A7F3D0;
-      --text:       #1C3829;
-      --muted:      #374151;
+      --charcoal:   #111827;
+      --card-bg:    #f0fdf4;
+      --border:     #d1d5db;
+      --text:       #111827;
+      --muted:      #4b5563;
     }
 
     html { scroll-behavior: smooth; }
@@ -104,7 +104,7 @@
     .hero {
       text-align: center;
       padding: 96px 24px 80px;
-      background: linear-gradient(180deg, #D1FAE5 0%, var(--cream) 100%);
+      background: linear-gradient(180deg, #e9f5ef 0%, var(--cream) 100%);
       position: relative; overflow: hidden;
     }
 
@@ -178,7 +178,7 @@
     }
 
     .mockup-toolbar {
-      background: #D1FAE5;
+      background: #e9f5ef;
       border-bottom: 1px solid var(--border);
       padding: 12px 20px;
       display: flex; align-items: center; gap: 8px;
@@ -200,7 +200,7 @@
     }
 
     .mockup-sidebar {
-      background: #F0FDF4;
+      background: var(--warm-white);
       border-right: 1px solid var(--border);
       padding: 20px 16px;
     }
@@ -346,7 +346,7 @@
     }
 
     /* ── HOW IT WORKS ─────────────────────────────────────── */
-    .steps-section { background: #ECFDF5; }
+    .steps-section { background: var(--warm-white); }
 
     .steps-grid {
       display: grid; grid-template-columns: repeat(3, 1fr);
@@ -441,7 +441,7 @@
     }
 
     /* ── TESTIMONIALS ─────────────────────────────────────── */
-    .testi-section { background: #ECFDF5; }
+    .testi-section { background: var(--warm-white); }
 
     .testi-grid {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
@@ -482,7 +482,7 @@
       border-radius: 16px; padding: 32px;
     }
     .price-card.featured {
-      background: linear-gradient(160deg, #D1FAE5, white);
+      background: linear-gradient(160deg, #e9f5ef, white);
       border: 2px solid var(--amber);
       position: relative;
     }
@@ -612,7 +612,7 @@
 <nav>
   <a href="https://tenantsentry.ai" class="nav-logo">
     <div class="shield">🛡</div>
-    TenantSentry.ai
+    TenantSentry
   </a>
   <ul class="nav-links">
     <li><a href="#features">Product</a></li>
@@ -961,7 +961,7 @@
 
       <div class="price-card">
         <div class="plan-name">Single Audit</div>
-        <div class="plan-price"><sup>$</sup>299</div>
+        <div class="plan-price"><sup>$</sup>399</div>
         <div class="plan-period">AUD · one-time · 1 lease</div>
         <ul class="plan-features">
           <li>✓ Full AI lease audit</li>
@@ -1045,7 +1045,7 @@
     <div class="footer-brand">
       <div class="brand-name">
         <div class="shield">🛡</div>
-        TenantSentry.ai
+        TenantSentry
       </div>
       <p>AI-powered lease auditing for Australian commercial tenants. Find overcharges, avoid pitfalls, negotiate with confidence.</p>
     </div>
@@ -1063,41 +1063,4 @@
       <h4>Resources</h4>
       <ul>
         <li><a href="https://tenantsentry.ai/resources/lease-guide">Lease Guide (AU)</a></li>
-        <li><a href="https://tenantsentry.ai/resources/retail-leases-act">Retail Leases Act Hub</a></li>
-        <li><a href="https://tenantsentry.ai/blog">Blog</a></li>
-        <li><a href="https://tenantsentry.ai/case-studies">Case Studies</a></li>
-        <li><a href="https://tenantsentry.ai/faq">FAQ</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Company</h4>
-      <ul>
-        <li><a href="https://tenantsentry.ai/about">About</a></li>
-        <li><a href="https://tenantsentry.ai/pricing">Pricing</a></li>
-        <li><a href="https://tenantsentry.ai/contact">Contact</a></li>
-        <li><a href="https://tenantsentry.ai/privacy">Privacy Policy</a></li>
-        <li><a href="https://tenantsentry.ai/terms">Terms of Service</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span>© 2026 TenantSentry Pty Ltd · ABN 00 000 000 000 · Sydney, Australia</span>
-    <div style="display:flex;gap:20px">
-      <a href="https://tenantsentry.ai/privacy">Privacy</a>
-      <a href="https://tenantsentry.ai/terms">Terms</a>
-      <a href="https://tenantsentry.ai/security">Security</a>
-    </div>
-  </div>
-</footer>
-
-<script>
-  function switchTab(name) {
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('tab-' + name).classList.add('active');
-    event.currentTarget.classList.add('active');
-  }
-</script>
-
-</body>
-</html>
+        <li><a href="https://tenantsentry.ai/resources/retail-leases-act">Retail L
