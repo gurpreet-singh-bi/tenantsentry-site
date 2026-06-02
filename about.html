@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2316A34A'/><text y='.9em' font-size='75' x='12'>🛡</text></svg>" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2316A34A'/><path d='M50 15 L80 27 L80 52 C80 68 65 80 50 87 C35 80 20 68 20 52 L20 27 Z' fill='none' stroke='white' stroke-width='5' stroke-linejoin='round'/></svg>" />
   <style>
     :root {
       --amber:      #16A34A;
@@ -240,7 +240,7 @@
 <!-- NAV -->
 <nav>
   <a href="index.html" class="nav-logo">
-    <div class="shield">🛡</div>
+    <div class="shield"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
     TenantSentry
   </a>
   <ul class="nav-links">
@@ -269,6 +269,9 @@
   <div class="origin">
     <p>
       TenantSentry started with a bill that didn't add up. A landlord invoice with land tax buried in the outgoings — illegal under Victorian law, but easy to miss if you don't know where to look. Most tenants never check. We did, and we found the same pattern across dozens of leases.
+    </p>
+    <p>
+      <strong>We got sick of seeing local businesses get overcharged on their outgoings, so we built an Australian tool to fight back.</strong> 100% Australian owned and operated — because this problem is uniquely ours, shaped by our state tenancy laws, our lease structures, and our property market.
     </p>
     <p>
       <strong>The problem isn't bad landlords. It's information asymmetry.</strong> Landlords have property management systems, in-house accountants, and decades of billing practice on their side. Tenants have a 60-page lease PDF and a gut feeling that something's off.
@@ -349,10 +352,11 @@
   <div class="footer-grid">
     <div class="footer-brand">
       <div class="brand-name">
-        <div class="shield">🛡</div>
+        <div class="shield"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
         TenantSentry
       </div>
       <p>AI-powered lease auditing for Australian commercial tenants. Find overcharges, avoid pitfalls, negotiate with confidence.</p>
+      <p style="margin-top:12px;font-size:0.78rem;color:rgba(255,255,255,0.75);line-height:1.6;border-top:1px solid rgba(255,255,255,0.15);padding-top:12px;">🇦🇺 TenantSentry is 100% Australian owned and operated. All audit data is hosted securely on Sydney-based servers in compliance with Australian Privacy Principles.</p>
     </div>
     <div class="footer-col">
       <h4>Product</h4>
@@ -455,23 +459,4 @@
           <option value="">Select...</option>
           <option>Start a lease audit</option>
           <option>Founding Partner enquiry</option>
-          <option>Channel partner / white-label</option>
-          <option>General question</option>
-        </select>
-      </label>
-      <label>Message <textarea placeholder="Tell us about your situation..."></textarea></label>
-      <button type="submit" class="modal-submit">Send message &#8594;</button>
-    </form>
-    <div id="contact-success" style="display:none;margin-top:16px;padding:12px 16px;background:#f0fdf4;border:1px solid #A7F3D0;border-radius:8px;font-size:0.88rem;color:var(--amber-dark);font-weight:600;">
-      &#x2713; Thanks &mdash; we'll be in touch within one business day.
-    </div>
-  </div>
-</div>
-<script>
-  function openContact() { document.getElementById("contact-modal").classList.add("open"); document.body.style.overflow="hidden"; }
-  function closeContact() { document.getElementById("contact-modal").classList.remove("open"); document.body.style.overflow=""; }
-  function handleContact(e) { e.preventDefault(); e.target.style.display="none"; document.getElementById("contact-success").style.display="block"; }
-  document.addEventListener("keydown", function(e) { if(e.key==="Escape") closeContact(); });
-</script>
-</body>
-</html>
+          <option>Channel p

@@ -24,7 +24,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2316A34A'/><text y='.9em' font-size='75' x='12'>🛡</text></svg>" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2316A34A'/><path d='M50 15 L80 27 L80 52 C80 68 65 80 50 87 C35 80 20 68 20 52 L20 27 Z' fill='none' stroke='white' stroke-width='5' stroke-linejoin='round'/></svg>" />
   <style>
     :root {
       --amber:      #16A34A;
@@ -74,6 +74,7 @@
       display: flex; align-items: center; justify-content: center;
       color: white; font-size: 16px;
     }
+    .nav-logo .shield svg { width: 18px; height: 18px; stroke: white; fill: none; }
 
     .nav-links {
       display: flex; gap: 20px; list-style: none;
@@ -338,7 +339,12 @@
       width: 40px; height: 40px; border-radius: 10px;
       background: var(--amber-light);
       display: flex; align-items: center; justify-content: center;
-      font-size: 18px; margin-bottom: 14px;
+      margin-bottom: 14px;
+    }
+    .feat-icon svg {
+      width: 20px; height: 20px;
+      stroke: var(--amber-dark); fill: none;
+      stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round;
     }
 
     .feat-card h3 {
@@ -613,6 +619,53 @@
     .footer-bottom a { color: #4ADE80; text-decoration: none; }
     .footer-bottom a:hover { color: var(--amber); }
 
+    /* ── FOOTER TRUST & UPLOAD SECURITY ─────────────────── */
+    .footer-trust {
+      margin-top: 12px; font-size: 0.78rem; color: rgba(255,255,255,0.75);
+      line-height: 1.6; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 12px;
+    }
+    .upload-security-note {
+      margin-top: 16px; font-size: 0.78rem;
+      color: rgba(255,255,255,0.6); letter-spacing: 0.01em;
+    }
+
+    /* ── EOFY BAND ───────────────────────────────────────── */
+    .eofy-band {
+      background: #fef3c7; border-top: 1px solid #fcd34d; border-bottom: 1px solid #fcd34d;
+      padding: 20px 24px;
+    }
+    .eofy-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+    }
+    .eofy-icon { color: #92400e; flex-shrink: 0; }
+    .eofy-text {
+      flex: 1; min-width: 260px;
+      font-size: 0.88rem; color: #78350f; line-height: 1.55;
+    }
+    .eofy-text strong { display: block; font-size: 0.95rem; margin-bottom: 4px; color: #451a03; }
+    .eofy-cta {
+      white-space: nowrap; background: #92400e; color: white;
+      padding: 10px 20px; border-radius: 8px; font-size: 0.85rem; font-weight: 700;
+      text-decoration: none; flex-shrink: 0;
+      transition: background 0.2s;
+    }
+    .eofy-cta:hover { background: #451a03; }
+
+    /* ── TRUST BADGE ─────────────────────────────────────── */
+    .trust-badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      margin-top: 20px;
+      background: rgba(22,163,74,0.1);
+      border: 1px solid rgba(22,163,74,0.3);
+      border-radius: 999px;
+      padding: 7px 16px;
+      font-size: 0.78rem; font-weight: 600;
+      color: #14532d;
+      letter-spacing: 0.01em;
+    }
+    .trust-badge svg { opacity: 0.8; flex-shrink: 0; stroke: #14532d; }
+
     /* ── TABS JS ───────────────────────────────────────────── */
   </style>
 </head>
@@ -621,7 +674,7 @@
 <!-- ── NAV ─────────────────────────────────────────── -->
 <nav>
   <a href="https://tenantsentry.ai" class="nav-logo">
-    <div class="shield">🛡</div>
+    <div class="shield"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
     TenantSentry
   </a>
   <ul class="nav-links">
@@ -634,7 +687,7 @@
   </ul>
   <div class="nav-ctas">
     <a href="#" onclick="openContact();return false;" class="btn-ghost" style="text-decoration:none">Contact Us</a>
-    <a href="#pricing" class="btn-primary" style="text-decoration:none">Get Started Free →</a>
+    <a href="https://tenantsentry.ai/audit" class="btn-primary" style="text-decoration:none">Get Free Lease Score →</a>
   </div>
 </nav>
 
@@ -643,8 +696,12 @@
   <h1>Your lease is <span class="highlight">costing you more</span> than it should.</h1>
   <p>TenantSentry AI audits your commercial lease in minutes — catching overcharges, hidden clauses, and compliance breaches before they drain your cash flow.</p>
   <div class="hero-ctas">
-    <a href="https://tenantsentry.ai/audit" class="btn-hero-primary" style="text-decoration:none">Audit My Lease Free →</a>
+    <a href="https://tenantsentry.ai/audit" class="btn-hero-primary" style="text-decoration:none">Get Your Free Lease Score →</a>
     <a href="https://tenantsentry.ai/demo" class="btn-hero-outline" style="text-decoration:none">See a Live Demo</a>
+  </div>
+  <div class="trust-badge">
+    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    <span>AI Powered &nbsp;·&nbsp; Expert Verified by Australian Commercial Lease Specialists</span>
   </div>
 
   <!-- MOCKUP -->
@@ -738,46 +795,60 @@
   </div>
 </div>
 
+<!-- ── EOFY URGENCY BAND ─────────────────────────────── -->
+<div class="eofy-band">
+  <div class="eofy-inner">
+    <div class="eofy-icon">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    </div>
+    <div class="eofy-text">
+      <strong>Just received your EOFY outgoings statement?</strong>
+      <span>Don't pay it without checking. Landlords routinely pass through capital works, inflated management fees, and excluded costs — all illegal under your lease. Upload your statement and lease now and find out what you can recover.</span>
+    </div>
+    <a href="https://tenantsentry.ai/audit" class="eofy-cta">Check My Statement →</a>
+  </div>
+</div>
+
 <!-- ── FEATURES ─────────────────────────────────────── -->
 <section id="features">
   <div class="section-inner">
     <div class="section-tag">What TenantSentry does</div>
-    <h2 class="section-heading">Everything your solicitor checks — in minutes, not months.</h2>
-    <p class="section-sub">Commercial lease auditing typically costs $5,000–$20,000 and takes weeks. TenantSentry delivers AI-powered analysis instantly, so you negotiate from strength.</p>
+    <h2 class="section-heading">Forensic lease checks by AI — double-verified by Australian leasing experts.</h2>
+    <p class="section-sub">Commercial lease auditing typically costs $5,000–$20,000 and takes weeks. TenantSentry delivers AI-powered analysis instantly, reviewed by a human specialist before your report is issued — so you negotiate from strength with full confidence.</p>
 
     <div class="features-grid">
       <div class="feat-card">
-        <div class="feat-icon">📄</div>
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>
         <h3>Instant Lease Parsing</h3>
         <p>Upload any PDF or DOCX lease. Our AI reads every clause, schedule, and annexure — extracting key dates, obligations, and rights in seconds.</p>
       </div>
       <div class="feat-card">
-        <div class="feat-icon">💸</div>
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg></div>
         <h3>Outgoings Reconciliation</h3>
         <p>Automatically cross-check outgoings invoices against your lease caps, eligible categories, and market benchmarks. Spot overcharges instantly.</p>
       </div>
       <div class="feat-card">
-        <div class="feat-icon">📈</div>
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
         <h3>Rent Review Alerts</h3>
         <p>Track fixed reviews, CPI-linked increases, and market rent reviews. Get notified 90 days before review dates with counter-argument data.</p>
       </div>
       <div class="feat-card">
-        <div class="feat-icon">⚖️</div>
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
         <h3>Compliance Checking</h3>
         <p>Clauses checked against Retail Leases Act (all states), Commercial Tenancy legislation, and ACCC guidelines. Know your rights before you sign.</p>
       </div>
       <div class="feat-card">
-        <div class="feat-icon">🔔</div>
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
         <h3>Critical Date Monitoring</h3>
         <p>Never miss an option exercise, rent review, or make-good notice again. Smart alerts sent via email and SMS at the right time.</p>
       </div>
       <div class="feat-card">
-        <div class="feat-icon">📊</div>
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
         <h3>Market Benchmarking</h3>
         <p>Compare your rent and terms against live comparable data in your suburb. Know if you're paying over market before your next renewal.</p>
       </div>
       <div class="feat-card">
-        <div class="feat-icon">🔗</div>
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
         <h3>Xero Bookkeeping Write-Back</h3>
         <p>Once audited, TenantSentry extracts every line item from your landlord's PDF invoice and writes them back into Xero as properly coded expense entries — so your books are accurate <em>and</em> your overcharges are caught in the same step.</p>
       </div>
@@ -805,8 +876,8 @@
       </div>
       <div class="step">
         <div class="step-num">3</div>
-        <h3>AI Audits Everything</h3>
-        <p>Our AI cross-checks every invoice line against your lease terms, ABS CPI data, land tax schedules, and the applicable state Retail Leases Act.</p>
+        <h3>AI Audits. Experts Verify.</h3>
+        <p>Our AI cross-checks every invoice line against your lease terms, ABS CPI data, land tax schedules, and the applicable state Retail Leases Act. A human Australian lease specialist then reviews the findings before your report is released.</p>
       </div>
       <div class="step">
         <div class="step-num">4</div>
@@ -974,17 +1045,23 @@
 <section id="pricing">
   <div class="section-inner" style="text-align:center">
     <div class="section-tag">Pricing</div>
-    <h2 class="section-heading">Pay per audit. No subscription. No lock-in.</h2>
-    <p class="section-sub" style="margin:0 auto 56px">Lease auditing is an annual event — so we charge that way. Pick the package that fits your portfolio, or join as a Founding Partner for free.</p>
+    <h2 class="section-heading">Start free. Pay only when you want the full picture.</h2>
+    <p class="section-sub" style="margin:0 auto 20px">Upload your lease and get a <strong>free Lease Risk Score</strong> — a graded summary of your top 3 risk areas. If you want the full clause-by-clause breakdown, dispute letter, and 12 months of invoice monitoring, upgrade to a full audit.</p>
+    <div style="display:inline-flex;align-items:center;gap:10px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:10px 20px;margin-bottom:48px;font-size:0.85rem;color:#14532d;">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      <span>Free Risk Score &nbsp;·&nbsp; No credit card &nbsp;·&nbsp; Results in under 2 minutes</span>
+    </div>
 
     <div class="pricing-grid" style="grid-template-columns:repeat(4,1fr);max-width:1100px">
 
       <div class="price-card">
-        <div class="plan-name">Pay As You Go</div>
+        <div class="plan-name">Single Audit</div>
+        <div style="font-size:0.75rem;color:#16a34a;font-weight:700;margin-bottom:8px;">Free Risk Score included</div>
         <div class="plan-price"><sup>$</sup>399</div>
         <div class="plan-period">AUD · per lease · audit + 12 mo. monitoring</div>
         <ul class="plan-features">
           <li>✓ Full AI lease audit</li>
+          <li>✓ Expert-verified findings</li>
           <li>✓ Outgoings reconciliation</li>
           <li>✓ Critical date report</li>
           <li>✓ Compliance flag summary</li>
@@ -1066,7 +1143,24 @@
 
 <!-- ── CTA BAND ─────────────────────────────────────── -->
 <div class="cta-band">
-  <h2>Stop overpaying on your lease.</h2>
-  <p>Upload your first lease and get a free audit report — no credit card required.</p>
+  <h2>Find out what your lease is costing you — free.</h2>
+  <p>Upload your lease and get a free Risk Score in under 2 minutes. No credit card. If we find issues worth disputing, the full audit pays for itself many times over.</p>
   <div class="cta-band-btns">
-    <a hr
+    <a href="https://tenantsentry.ai/audit" class="btn-cta-primary">Get My Free Lease Score →</a>
+    <a href="#" onclick="openContact();return false;" class="btn-cta-outline">Book a Demo</a>
+  </div>
+  <p class="upload-security-note">🔒 Secure &amp; Confidential. Your documents are analysed by an Australian-owned entity and are never shared.</p>
+</div>
+
+<!-- ── FOOTER ─────────────────────────────────────── -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="brand-name">
+        <div class="shield"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        TenantSentry
+      </div>
+      <p>AI-powered lease auditing for Australian commercial tenants. Find overcharges, avoid pitfalls, negotiate with confidence.</p>
+      <p class="footer-trust">🇦🇺 TenantSentry is 100% Australian owned and operated. All audit data is hosted securely on Sydney-based servers in compliance with Australian Privacy Principles.</p>
+    </div>
+    <div class="
