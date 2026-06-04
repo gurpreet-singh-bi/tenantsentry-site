@@ -2,23 +2,20 @@
  * TenantSentry F-CHAT Widget
  * --------------------------
  * Drop-in floating chat widget for the TenantSentry.ai marketing site.
- * - Answers common commercial lease questions (client-side KB, v1)
- * - Logs every query to the backend for gap analysis
- * - Upsells to lease upload on KB gaps
+ * Handles both product questions (what is TenantSentry?) and lease law
+ * questions (rights, outgoings, make good, etc.).
+ * Logs every query to the backend for gap analysis.
  *
  * Usage: <script src="/chat.js" data-api="https://your-backend.com"></script>
- * If data-api is omitted, defaults to same origin (useful for local dev).
  */
 
 (function () {
   'use strict';
 
-  // ── Config ────────────────────────────────────────────────────────────────
   const scriptEl = document.currentScript || document.querySelector('script[src*="chat.js"]');
   const API_BASE = (scriptEl && scriptEl.dataset.api) || '';
-  const UPLOAD_URL = 'https://tenantsentry.com.au/#upload'; // PLG funnel CTA
+  const UPLOAD_URL = 'https://tenantsentry.com.au/#upload';
 
-  // ── Session ID (anonymous, per browser session) ───────────────────────────
   function getSessionId() {
     let sid = sessionStorage.getItem('ts_chat_session');
     if (!sid) {
@@ -28,202 +25,130 @@
     return sid;
   }
 
-  // ── Client-side KB (v1) ───────────────────────────────────────────────────
-  // Each entry: { keywords, clauseType, jurisdiction (optional), articleId, response }
-  // Response is markdown-lite (line breaks with \n, **bold** supported).
+  // ── Product KB ────────────────────────────────────────────────────────────
+  const PRODUCT_KB = [
+    {
+      keywords: ['what is tenantsentry', 'what does tenantsentry do', 'what can you do', 'what can tenantsentry do', 'how does it work', 'tell me about tenantsentry', 'what do you do', 'who are you'],
+      articleId: 'product-overview',
+      type: 'product',
+      cta: { label: 'See how it works →', href: 'https://tenantsentry.com.au/#how-it-works' },
+      response: '**TenantSentry is an AI-powered lease audit tool for Australian commercial tenants.**\n\nYou upload your lease PDF and we analyse it against state retail lease legislation — in minutes, not weeks.\n\nHere\'s what we find:\n- 🔴 Unlawful clauses (e.g. land tax passed to VIC/NSW retail tenants)\n- 💰 Overcharged outgoings and incorrect CPI calculations\n- ⚠️ Missing tenant protections your lease should include\n- 📅 Critical dates — option windows, rent reviews, lease expiry\n\nYou get a plain-English report showing exactly what\'s wrong, how much you may be owed, and the legislation that backs it up.'
+    },
+    {
+      keywords: ['how much', 'price', 'pricing', 'cost', 'fee', 'how much does it cost', 'how much is it', 'subscription', 'per month'],
+      articleId: 'product-pricing',
+      type: 'product',
+      cta: { label: 'See pricing →', href: 'https://tenantsentry.com.au/#pricing' },
+      response: '**TenantSentry pricing is straightforward — pay per audit, no lock-in.**\n\n- **Single audit:** $199 — full lease analysis, PDF report, legislative citations\n- **Audit + 12-month monitoring:** $399 — includes ongoing alerts for rent reviews, option deadlines, outgoings reconciliations\n- **Month 13+ monitoring:** $49/month to keep the alerts running\n\nMost tenants recover far more than the audit fee in their first year — the average overcharge we find is over $8,000.'
+    },
+    {
+      keywords: ['how long', 'how fast', 'turnaround', 'minutes', 'hours', 'when will i get', 'quick'],
+      articleId: 'product-turnaround',
+      type: 'product',
+      cta: { label: 'Upload your lease →', href: UPLOAD_URL },
+      response: '**Most audits complete in under 5 minutes.**\n\nOur AI reads and analyses your lease the moment you upload it:\n1. OCR + clause extraction (~1 min)\n2. AI analysis against legislation (~2–3 min)\n3. Human expert spot-check before release (~same day)\n\nYou get an email when your report is ready.'
+    },
+    {
+      keywords: ['legal advice', 'is this legal advice', 'lawyer', 'solicitor', 'replace a lawyer', 'not legal advice'],
+      articleId: 'product-legal-disclaimer',
+      type: 'product',
+      cta: { label: 'Learn more →', href: 'https://tenantsentry.com.au/why-tenantsentry' },
+      response: '**TenantSentry is not a law firm and does not provide legal advice.**\n\nWhat we do provide:\n- Factual identification of clause types and legislative references\n- Plain-English explanation of what each clause means\n- Draft dispute letters (framed as templates for your review)\n\nThink of us as a highly specialised lease auditor. For legal proceedings, you\'ll still want a solicitor. But most overcharges are resolved with a well-cited letter — and that\'s what our report gives you.'
+    },
+    {
+      keywords: ['which states', 'what states', 'where available', 'jurisdiction supported', 'does it work in', 'available in'],
+      articleId: 'product-jurisdictions',
+      type: 'product',
+      cta: { label: 'Check your state →', href: UPLOAD_URL },
+      response: '**Full support for VIC, NSW, and QLD — the three largest retail lease markets.**\n\n- **VIC** — Retail Leases Act 2003, VSBC dispute resolution\n- **NSW** — Retail Leases Act 1994, NSW Fair Trading / NCAT\n- **QLD** — Retail Shop Leases Act 1994, QCAT\n\nWA and SA are on our roadmap for Phase 2.'
+    },
+    {
+      keywords: ['safe', 'secure', 'privacy', 'data', 'confidential', 'who can see', 'security', 'store my lease', 'my data'],
+      articleId: 'product-security',
+      type: 'product',
+      cta: { label: 'Read our privacy policy →', href: 'https://tenantsentry.com.au/about' },
+      response: '**Your lease data is handled with strict confidentiality.**\n\n- All data stored on **Sydney-based servers** compliant with Australian Privacy Principles\n- Your lease is never shared with third parties or used to train AI models\n- Only you and our internal audit team can access your report\n- Encrypted in transit (TLS) and at rest\n\nIf you want your data deleted after your audit, just ask — actioned within 48 hours.'
+    },
+    {
+      keywords: ['who is it for', 'who uses', 'am i eligible', 'retail tenant', 'commercial tenant', 'small business', 'franchise', 'cafe', 'restaurant', 'shop'],
+      articleId: 'product-who-for',
+      type: 'product',
+      cta: { label: 'Upload your lease →', href: UPLOAD_URL },
+      response: '**TenantSentry is built for Australian commercial and retail tenants** — especially small businesses who can\'t justify $500/hr solicitor rates for every lease question.\n\nOur typical users:\n- Retailers, cafés, restaurants, gyms on retail leases\n- Medical and allied health practices\n- Franchise operators reviewing landlord invoices\n- Office tenants checking outgoings reconciliations\n\nIf you pay rent on commercial premises in Australia and have a lease document, TenantSentry can audit it.'
+    },
+    {
+      keywords: ['monitoring', 'alerts', 'reminder', 'critical date', 'option reminder', 'rent review alert', '12 month', 'ongoing'],
+      articleId: 'product-monitoring',
+      type: 'product',
+      cta: { label: 'See monitoring features →', href: 'https://tenantsentry.com.au/#features' },
+      response: '**The $399 plan includes 12 months of critical date monitoring.**\n\nAfter your audit, we track your lease calendar and alert you before:\n- 📅 Option to renew window (90, 60, 30 days before)\n- 💰 Rent review dates (so you\'re prepared with CPI data)\n- 📋 Outgoings reconciliation due dates\n- ⚠️ Lease expiry (so you\'re never caught in holding over)\n\nAlerts come by email, and you can view your full lease calendar in your dashboard.'
+    },
+  ];
+
+  // ── Lease law KB ──────────────────────────────────────────────────────────
+  const LEASE_CTA = { label: 'Upload my lease →', href: UPLOAD_URL };
   const KB = [
     {
       keywords: ['rent increase', 'rent review', 'backdated', 'backdating', 'notice period', 'notice of rent'],
-      clauseType: 'rent_review',
-      articleId: 'rent-increase-notice',
-      response: `**Rent increases must follow strict notice rules.**
-
-In VIC, NSW and QLD the landlord must give you written notice before increasing rent — usually 30 days for retail leases. A backdated increase (effective before the notice was given) is **not enforceable**.
-
-🔴 **Red flags in your lease:**
-- No minimum notice period specified
-- Rent review date not clearly defined
-- Clause allows "immediate" adjustment
-
-**What you can do:** If you've received a backdated increase, write to your landlord noting the breach and request a corrected invoice dated from the proper notice date.
-
-👉 Want to check if your lease's rent review clause is compliant?`
+      clauseType: 'rent_review', articleId: 'rent-increase-notice', type: 'lease', cta: LEASE_CTA,
+      response: '**Rent increases must follow strict notice rules.**\n\nIn VIC, NSW and QLD the landlord must give written notice before increasing rent — usually 30 days for retail leases. A backdated increase is **not enforceable**.\n\n🔴 **Red flags:**\n- No minimum notice period specified\n- Rent review date not clearly defined\n- Clause allows "immediate" adjustment\n\n**What you can do:** Write to your landlord noting the breach and request a corrected invoice from the proper notice date.\n\n👉 Want to check if your rent review clause is compliant?'
     },
     {
       keywords: ['ratchet', 'ratchet clause', 'rent can never go down', 'minimum rent'],
-      clauseType: 'rent_review',
-      articleId: 'ratchet-clause',
-      response: `**A ratchet clause prevents rent from falling below its current level — even if market rent drops.**
-
-This is common in commercial leases but is **prohibited in retail leases** in VIC and NSW when rent is reviewed to market. Under the Retail Leases Act, a market review must be genuine — the landlord can't use a ratchet to lock in a floor.
-
-🔴 **Red flags:**
-- "Rent shall not decrease" language in a market review clause
-- Combined CPI + ratchet in a retail lease
-
-**What you can do:** If you're in VIC or NSW on a retail lease, a ratchet attached to a market review is likely unenforceable. Get the clause audited before your next review date.
-
-👉 Upload your lease to check for ratchet clauses:`
+      clauseType: 'rent_review', articleId: 'ratchet-clause', type: 'lease', cta: LEASE_CTA,
+      response: '**A ratchet clause prevents rent from falling below its current level — even if market rent drops.**\n\nThis is **prohibited in retail leases** in VIC and NSW when rent is reviewed to market. Under the Retail Leases Act, a market review must be genuine.\n\n🔴 **Red flags:**\n- "Rent shall not decrease" language in a market review clause\n- Combined CPI + ratchet in a retail lease\n\n👉 Upload your lease to check for ratchet clauses:'
     },
     {
       keywords: ['cpi', 'consumer price index', 'cpi review', 'inflation', 'cpi calculation', 'wrong cpi'],
-      clauseType: 'rent_review',
-      articleId: 'cpi-review',
-      response: `**CPI rent reviews must use the correct ABS index group for your state.**
-
-The most common landlord error: applying the wrong CPI index (e.g. national CPI instead of the state-specific All Groups index, or using the wrong base quarter).
-
-Check your lease specifies:
-- Which ABS index series (e.g. "All Groups CPI, Sydney")
-- Which quarter is the base (typically the quarter before lease start)
-- Review frequency (usually annual)
-
-🔴 **Common errors:**
-- Using national CPI instead of state index
-- Wrong base date → compounds into significant overcharge over time
-- Applying CPI to outgoings as well as base rent (usually not permitted)
-
-👉 Our audit engine checks your lease's CPI formula against the correct ABS data:`
+      clauseType: 'rent_review', articleId: 'cpi-review', type: 'lease', cta: LEASE_CTA,
+      response: '**CPI rent reviews must use the correct ABS index group for your state.**\n\nThe most common landlord error: applying the wrong index (e.g. national CPI instead of state All Groups).\n\n🔴 **Common errors:**\n- Using national CPI instead of state index\n- Wrong base date → compounds into significant overcharge over time\n- Applying CPI to outgoings as well as base rent (usually not permitted)\n\n👉 Our audit engine checks your lease\'s CPI formula against the correct ABS data:'
     },
     {
       keywords: ['outgoings', 'outgoing', 'body corporate', 'council rates', 'insurance', 'management fee', 'sinking fund', 'water rates'],
-      clauseType: 'outgoings',
-      articleId: 'outgoings-allowable',
-      response: `**Landlords can only pass on outgoings that are explicitly permitted in your lease.**
-
-In retail leases (VIC, NSW, QLD), certain outgoings are **prohibited** regardless of what the lease says:
-- Capital works and improvements
-- Depreciation of the building
-- Costs to attract or retain other tenants
-- Land tax (in most retail lease jurisdictions)
-
-Your lease must include an **estimated outgoings schedule** at signing, and the landlord must reconcile actuals vs estimates each year.
-
-🔴 **Common overcharges:**
-- Management fees above a reasonable percentage
-- Sinking fund contributions (capital in nature)
-- Costs shared across tenancies without a clear formula
-
-👉 Upload your lease and most recent outgoings invoice to audit what you're actually owed:`
+      clauseType: 'outgoings', articleId: 'outgoings-allowable', type: 'lease', cta: LEASE_CTA,
+      response: '**Landlords can only pass on outgoings explicitly permitted in your lease.**\n\nIn retail leases (VIC, NSW, QLD) these are **prohibited** regardless of what the lease says:\n- Capital works and improvements\n- Depreciation of the building\n- Costs to attract or retain other tenants\n- Land tax (most retail lease jurisdictions)\n\n🔴 **Common overcharges:**\n- Management fees above a reasonable percentage\n- Sinking fund contributions (capital in nature)\n- Costs shared without a clear formula\n\n👉 Upload your lease and latest outgoings invoice to audit what you\'re actually owed:'
     },
     {
       keywords: ['land tax', 'land tax passed', 'land tax in lease'],
-      clauseType: 'land_tax',
-      articleId: 'land-tax-prohibited',
-      response: `**Land tax cannot be passed to retail tenants in VIC or NSW — full stop.**
-
-Under the Retail Leases Act 2003 (VIC) s.46 and Retail Leases Act 1994 (NSW) s.41, a landlord **cannot** recover land tax from a retail tenant. Any lease clause purporting to do so is void.
-
-In QLD, land tax recovery is allowed but must be clearly specified in the lease and the outgoings schedule.
-
-🔴 **What to look for:**
-- Line item "Land Tax" on your outgoings invoice (VIC/NSW → automatic overcharge)
-- Lease clause referencing "statutory charges" — check if land tax is buried in this definition
-
-**Recoverable amount:** If you've been charged land tax in VIC or NSW, you can recover overpaid amounts. Limitation period is typically 6 years.
-
-👉 Check your lease and invoices for land tax charges:`
+      clauseType: 'land_tax', articleId: 'land-tax-prohibited', type: 'lease', cta: LEASE_CTA,
+      response: '**Land tax cannot be passed to retail tenants in VIC or NSW — full stop.**\n\nUnder the Retail Leases Act 2003 (VIC) s.46 and Retail Leases Act 1994 (NSW) s.41, any lease clause purporting to do so is void.\n\nIn QLD, land tax recovery is allowed but must be clearly specified in the lease.\n\n🔴 **What to look for:**\n- Line item "Land Tax" on your outgoings invoice (VIC/NSW → automatic overcharge)\n- "Statutory charges" definition — check if land tax is buried in it\n\n**Recoverable amount:** If charged in VIC or NSW, you can recover overpaid amounts (6-year limitation).\n\n👉 Check your lease and invoices for land tax charges:'
     },
     {
       keywords: ['make good', 'make-good', 'reinstatement', 'original condition', 'strip out', 'fit out removal'],
-      clauseType: 'make_good',
-      articleId: 'make-good-obligations',
-      response: `**Make good obligations must be specific — vague "original condition" clauses are often unenforceable.**
-
-Your lease should clearly state what make good means: does it mean stripping your fit-out, restoring walls and floors, or returning to the condition at lease commencement (with fair wear and tear)?
-
-In VIC, if the make good clause is ambiguous, the Retail Leases Act gives VSBC jurisdiction to resolve disputes. Courts have repeatedly found that "original condition" does not mean "brand new."
-
-🔴 **Red flags:**
-- No definition of "original condition" in the lease
-- Make good obligation extends to landlord's original fit-out (not just tenant's additions)
-- No fair wear and tear carve-out
-
-**Before you hand back:** Get a condition report from lease commencement. If you don't have one, photos from moving in can substitute.
-
-👉 Get your make good clause audited before lease end:`
+      clauseType: 'make_good', articleId: 'make-good-obligations', type: 'lease', cta: LEASE_CTA,
+      response: '**Make good obligations must be specific — vague "original condition" clauses are often unenforceable.**\n\nYour lease should clearly state: strip your fit-out, restore walls/floors, or return to commencement condition (with fair wear and tear)?\n\n🔴 **Red flags:**\n- No definition of "original condition"\n- Make good extends to landlord\'s original fit-out\n- No fair wear and tear carve-out\n\n**Before handback:** A condition report from lease start is your best protection.\n\n👉 Get your make good clause audited before lease end:'
     },
     {
       keywords: ['holding over', 'hold over', 'month to month', 'lease expired', 'lease ending', 'after lease expires'],
-      clauseType: 'holding_over',
-      articleId: 'holding-over-rights',
-      response: `**Holding over = staying in the premises after your lease expires without signing a new lease.**
-
-What happens depends on your lease and jurisdiction:
-
-**VIC/NSW Retail:** If you hold over with the landlord's consent (explicit or implied by accepting rent), you typically become a month-to-month tenant on the same terms. Either party can end this with 1 month's notice.
-
-**Risk:** The landlord has more leverage in holding over — they can increase rent or refuse to renew. You also lose the protection of a fixed term.
-
-🔴 **Watch out for:**
-- Holding over provisions that allow the landlord to charge a higher rent multiplier (e.g. 1.5× monthly rent)
-- No maximum holding over period specified
-
-**Best practice:** Decide at least 6 months before expiry whether you want to exercise your option or negotiate a new term.
-
-👉 Check your lease's holding over and option clauses:`
+      clauseType: 'holding_over', articleId: 'holding-over-rights', type: 'lease', cta: LEASE_CTA,
+      response: '**Holding over = staying in the premises after your lease expires without a new lease.**\n\nIn VIC/NSW retail, if you hold over with landlord consent you typically become month-to-month on the same terms. Either party can end with 1 month\'s notice.\n\n🔴 **Watch out for:**\n- Higher rent multiplier during holding over (e.g. 1.5\xD7 monthly rent)\n- No maximum holding over period specified\n\n**Best practice:** Decide at least 6 months before expiry whether to exercise your option or negotiate a new term.\n\n👉 Check your lease\'s holding over and option clauses:'
     },
     {
       keywords: ['option', 'option to renew', 'exercise option', 'renew lease', 'renewal', 'missed option'],
-      clauseType: 'options',
-      articleId: 'option-to-renew',
-      response: `**Options to renew must be exercised within a strict window — missing it means losing the right entirely.**
-
-Your lease will specify a "window" — typically between 6 and 3 months before the lease expires. If you miss this window, the landlord is not obliged to renew, even if you've been a good tenant.
-
-**How to exercise correctly:**
-1. Give written notice within the window (check if registered post is required)
-2. Keep the letter — proof of date is critical
-3. Ensure you're not in breach of the lease at the time
-
-🔴 **Common mistakes:**
-- Verbal notice only (not valid)
-- Notice sent outside the window
-- Lease in breach at time of notice (landlord can refuse)
-
-In VIC, VSBC can intervene if a landlord unreasonably refuses renewal after a valid exercise — but only if you exercised correctly.
-
-👉 Set a reminder for your option window and check your notice requirements:`
+      clauseType: 'options', articleId: 'option-to-renew', type: 'lease', cta: LEASE_CTA,
+      response: '**Options to renew must be exercised within a strict window — missing it means losing the right entirely.**\n\nYour lease specifies a window, typically 6–3 months before expiry. Miss it, and the landlord is not obliged to renew.\n\n**How to exercise correctly:**\n1. Written notice within the window (check if registered post is required)\n2. Keep the letter — proof of date is critical\n3. Ensure you\'re not in breach of the lease\n\n🔴 **Common mistakes:**\n- Verbal notice only (not valid)\n- Notice sent outside the window\n- Lease in breach at time of notice\n\n👉 Check your option window and notice requirements:'
     },
     {
       keywords: ['dispute', 'vsbc', 'ncat', 'qcat', 'tribunal', 'mediation', 'complaint'],
-      clauseType: 'other',
-      articleId: 'dispute-resolution',
-      response: `**Most retail lease disputes must go through the state tribunal before court.**
-
-- **VIC:** Victorian Small Business Commission (VSBC) — free mediation, then VCAT
-- **NSW:** NSW Fair Trading mediation, then NCAT
-- **QLD:** Office of the Small Business Commissioner, then QCAT
-
-Costs are low and the process is designed for non-lawyers. Most disputes resolve at mediation without going to tribunal.
-
-**What you'll need:**
-- A copy of your lease
-- Invoices and correspondence
-- Evidence of the alleged breach (photos, emails, etc.)
-
-**Tip:** A formal letter to the landlord citing the specific Act section often resolves disputes before tribunal. Landlords prefer not to appear before VSBC/NCAT.
-
-👉 Our audit report includes the specific legislative citations for each flag — ready to attach to a dispute letter:`
+      clauseType: 'other', articleId: 'dispute-resolution', type: 'lease', cta: LEASE_CTA,
+      response: '**Most retail lease disputes must go through the state tribunal before court.**\n\n- **VIC:** VSBC — free mediation, then VCAT\n- **NSW:** NSW Fair Trading mediation, then NCAT\n- **QLD:** Office of the Small Business Commissioner, then QCAT\n\nCosts are low and the process is designed for non-lawyers. Most disputes resolve at mediation.\n\n**Tip:** A formal letter citing the specific Act section often resolves disputes before tribunal.\n\n👉 Our report includes legislative citations ready to attach to a dispute letter:'
     },
   ];
 
   // ── KB Matching ───────────────────────────────────────────────────────────
   function matchKB(query) {
     const q = query.toLowerCase();
-    let best = null;
-    let bestScore = 0;
-    for (const entry of KB) {
+    let best = null, bestScore = 0;
+    for (const entry of [...PRODUCT_KB, ...KB]) {
       let score = 0;
       for (const kw of entry.keywords) {
-        if (q.includes(kw)) score += kw.split(' ').length; // longer phrase = higher weight
+        if (q.includes(kw)) score += kw.split(' ').length;
       }
       if (score > bestScore) { bestScore = score; best = entry; }
     }
     return bestScore > 0 ? best : null;
   }
 
-  // Infer jurisdiction from query text
   function inferJurisdiction(query) {
     const q = query.toLowerCase();
     if (q.includes('victoria') || q.includes('vic') || q.includes('melbourne')) return 'VIC';
@@ -232,222 +157,180 @@ Costs are low and the process is designed for non-lawyers. Most disputes resolve
     return null;
   }
 
-  // ── Backend logging ───────────────────────────────────────────────────────
   async function logQuery(query, match) {
     try {
-      await fetch(`${API_BASE}/api/chat/query`, {
+      await fetch(API_BASE + '/api/chat/query', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           session_id: getSessionId(),
           raw_query: query,
           jurisdiction: inferJurisdiction(query) || '',
-          clause_type: match ? match.clauseType : 'other',
+          clause_type: match ? (match.clauseType || 'other') : 'other',
           matched_kb_article_id: match ? match.articleId : '',
         }),
       });
-    } catch (_) {
-      // Non-fatal — never break chat on logging failure
-    }
+    } catch (_) {}
   }
 
-  // ── Render markdown-lite ──────────────────────────────────────────────────
   function renderMessage(text) {
     return text
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-      .replace(/🔴/g, '<span style="color:#dc2626">🔴</span>')
-      .replace(/👉/g, '<span>👉</span>')
       .replace(/\n/g, '<br>');
   }
 
-  // ── Widget HTML / CSS ─────────────────────────────────────────────────────
+  // ── Styles ────────────────────────────────────────────────────────────────
   const STYLES = `
     #ts-chat-bubble {
-      position: fixed; bottom: 24px; right: 24px; z-index: 9999;
-      width: 56px; height: 56px; border-radius: 50%;
-      background: #16A34A; color: white;
-      border: none; cursor: pointer;
-      box-shadow: 0 4px 16px rgba(22,163,74,0.4);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 24px; transition: transform 0.2s, box-shadow 0.2s;
-      font-family: inherit;
+      position:fixed;bottom:24px;right:24px;z-index:9999;
+      width:56px;height:56px;border-radius:50%;
+      background:#16A34A;color:white;border:none;cursor:pointer;
+      box-shadow:0 4px 16px rgba(22,163,74,0.4);
+      display:flex;align-items:center;justify-content:center;
+      font-size:24px;transition:transform 0.2s,box-shadow 0.2s;
     }
-    #ts-chat-bubble:hover { transform: scale(1.08); box-shadow: 0 6px 20px rgba(22,163,74,0.5); }
-    #ts-chat-bubble .ts-bubble-badge {
-      position: absolute; top: -4px; right: -4px;
-      background: #dc2626; color: white; font-size: 11px;
-      border-radius: 10px; padding: 1px 6px; font-weight: 700;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+    #ts-chat-bubble:hover{transform:scale(1.08);box-shadow:0 6px 20px rgba(22,163,74,0.5);}
+    #ts-chat-bubble .ts-bubble-badge{
+      position:absolute;top:-4px;right:-4px;
+      background:#dc2626;color:white;font-size:11px;
+      border-radius:10px;padding:1px 6px;font-weight:700;
+      font-family:'Plus Jakarta Sans',sans-serif;
     }
-    #ts-chat-panel {
-      position: fixed; bottom: 92px; right: 24px; z-index: 9998;
-      width: 360px; max-height: 540px;
-      background: white; border-radius: 16px;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.14);
-      display: flex; flex-direction: column;
-      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
-      overflow: hidden;
-      transition: opacity 0.2s, transform 0.2s;
+    #ts-chat-panel{
+      position:fixed;bottom:92px;right:24px;z-index:9998;
+      width:360px;max-height:540px;
+      background:white;border-radius:16px;
+      box-shadow:0 8px 40px rgba(0,0,0,0.14);
+      display:flex;flex-direction:column;
+      font-family:'Plus Jakarta Sans',-apple-system,sans-serif;
+      overflow:hidden;transition:opacity 0.2s,transform 0.2s;
     }
-    #ts-chat-panel.ts-hidden { opacity: 0; pointer-events: none; transform: translateY(12px); }
-    .ts-chat-header {
-      background: #16A34A; color: white;
-      padding: 14px 16px; display: flex; align-items: center; gap: 10px;
+    #ts-chat-panel.ts-hidden{opacity:0;pointer-events:none;transform:translateY(12px);}
+    .ts-chat-header{
+      background:#16A34A;color:white;
+      padding:14px 16px;display:flex;align-items:center;gap:10px;
     }
-    .ts-chat-header-avatar {
-      width: 36px; height: 36px; border-radius: 50%;
-      background: rgba(255,255,255,0.2);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px;
+    .ts-chat-header-avatar{
+      width:36px;height:36px;border-radius:50%;
+      background:rgba(255,255,255,0.2);
+      display:flex;align-items:center;justify-content:center;font-size:18px;
     }
-    .ts-chat-header-info { flex: 1; }
-    .ts-chat-header-name { font-weight: 700; font-size: 0.95rem; }
-    .ts-chat-header-status { font-size: 0.75rem; opacity: 0.85; }
-    .ts-chat-close {
-      background: none; border: none; color: white; cursor: pointer;
-      font-size: 20px; padding: 4px; line-height: 1; opacity: 0.8;
+    .ts-chat-header-info{flex:1;}
+    .ts-chat-header-name{font-weight:700;font-size:0.95rem;}
+    .ts-chat-header-status{font-size:0.75rem;opacity:0.85;}
+    .ts-chat-close{background:none;border:none;color:white;cursor:pointer;font-size:20px;padding:4px;line-height:1;opacity:0.8;}
+    .ts-chat-close:hover{opacity:1;}
+    .ts-chat-messages{
+      flex:1;overflow-y:auto;padding:16px;
+      display:flex;flex-direction:column;gap:12px;background:#f9fafb;
     }
-    .ts-chat-close:hover { opacity: 1; }
-    .ts-chat-messages {
-      flex: 1; overflow-y: auto; padding: 16px;
-      display: flex; flex-direction: column; gap: 12px;
-      background: #f9fafb;
+    .ts-msg{max-width:88%;padding:10px 13px;border-radius:12px;font-size:0.875rem;line-height:1.55;}
+    .ts-msg-bot{background:white;border:1px solid #e5e7eb;border-bottom-left-radius:4px;align-self:flex-start;color:#111827;}
+    .ts-msg-user{background:#16A34A;color:white;border-bottom-right-radius:4px;align-self:flex-end;}
+    .ts-msg-cta{margin-top:10px;padding-top:10px;border-top:1px solid #e5e7eb;}
+    .ts-cta-btn{
+      display:inline-block;margin-top:6px;background:#16A34A;color:white;
+      padding:8px 14px;border-radius:8px;font-size:0.8rem;font-weight:600;
+      text-decoration:none;transition:background 0.15s;
     }
-    .ts-msg {
-      max-width: 88%; padding: 10px 13px; border-radius: 12px;
-      font-size: 0.875rem; line-height: 1.55;
+    .ts-cta-btn:hover{background:#0F6B31;color:white;text-decoration:none;}
+    .ts-chips{display:flex;flex-wrap:wrap;gap:6px;padding:0 2px;}
+    .ts-chip{
+      background:white;border:1px solid #16A34A;color:#16A34A;
+      border-radius:20px;padding:6px 12px;font-size:0.78rem;
+      font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;
+      cursor:pointer;transition:background 0.15s,color 0.15s;white-space:nowrap;
     }
-    .ts-msg-bot {
-      background: white; border: 1px solid #e5e7eb;
-      border-bottom-left-radius: 4px; align-self: flex-start;
-      color: #111827;
+    .ts-chip:hover{background:#16A34A;color:white;}
+    .ts-typing{display:flex;gap:4px;align-items:center;padding:10px 13px;}
+    .ts-typing span{width:7px;height:7px;background:#9ca3af;border-radius:50%;animation:ts-bounce 1.2s infinite;}
+    .ts-typing span:nth-child(2){animation-delay:0.2s;}
+    .ts-typing span:nth-child(3){animation-delay:0.4s;}
+    @keyframes ts-bounce{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-6px);}}
+    .ts-chat-input-row{display:flex;gap:8px;padding:12px 14px;border-top:1px solid #e5e7eb;background:white;}
+    .ts-chat-input{
+      flex:1;border:1px solid #d1d5db;border-radius:8px;
+      padding:9px 12px;font-size:0.875rem;outline:none;
+      font-family:inherit;resize:none;transition:border-color 0.15s;
     }
-    .ts-msg-user {
-      background: #16A34A; color: white;
-      border-bottom-right-radius: 4px; align-self: flex-end;
+    .ts-chat-input:focus{border-color:#16A34A;}
+    .ts-chat-send{
+      background:#16A34A;color:white;border:none;border-radius:8px;
+      padding:9px 14px;cursor:pointer;font-size:16px;
+      transition:background 0.15s;display:flex;align-items:center;
     }
-    .ts-msg-cta {
-      margin-top: 10px; padding-top: 10px;
-      border-top: 1px solid #e5e7eb;
-    }
-    .ts-cta-btn {
-      display: inline-block; margin-top: 6px;
-      background: #16A34A; color: white;
-      padding: 8px 14px; border-radius: 8px;
-      font-size: 0.8rem; font-weight: 600; text-decoration: none;
-      transition: background 0.15s;
-    }
-    .ts-cta-btn:hover { background: #0F6B31; color: white; text-decoration: none; }
-    .ts-typing { display: flex; gap: 4px; align-items: center; padding: 10px 13px; }
-    .ts-typing span {
-      width: 7px; height: 7px; background: #9ca3af; border-radius: 50%;
-      animation: ts-bounce 1.2s infinite;
-    }
-    .ts-typing span:nth-child(2) { animation-delay: 0.2s; }
-    .ts-typing span:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes ts-bounce {
-      0%,60%,100% { transform: translateY(0); }
-      30% { transform: translateY(-6px); }
-    }
-    .ts-chat-input-row {
-      display: flex; gap: 8px; padding: 12px 14px;
-      border-top: 1px solid #e5e7eb; background: white;
-    }
-    .ts-chat-input {
-      flex: 1; border: 1px solid #d1d5db; border-radius: 8px;
-      padding: 9px 12px; font-size: 0.875rem; outline: none;
-      font-family: inherit; resize: none;
-      transition: border-color 0.15s;
-    }
-    .ts-chat-input:focus { border-color: #16A34A; }
-    .ts-chat-send {
-      background: #16A34A; color: white; border: none; border-radius: 8px;
-      padding: 9px 14px; cursor: pointer; font-size: 16px;
-      transition: background 0.15s;
-      display: flex; align-items: center;
-    }
-    .ts-chat-send:hover { background: #0F6B31; }
-    .ts-chat-send:disabled { background: #d1d5db; cursor: default; }
-    .ts-disclaimer {
-      text-align: center; font-size: 0.7rem; color: #9ca3af;
-      padding: 0 14px 10px; background: white;
-    }
-    @media (max-width: 400px) {
-      #ts-chat-panel { width: calc(100vw - 24px); right: 12px; }
-    }
+    .ts-chat-send:hover{background:#0F6B31;}
+    .ts-chat-send:disabled{background:#d1d5db;cursor:default;}
+    .ts-disclaimer{text-align:center;font-size:0.7rem;color:#9ca3af;padding:0 14px 10px;background:white;}
+    @media(max-width:400px){#ts-chat-panel{width:calc(100vw - 24px);right:12px;}}
   `;
 
-  // ── Widget state ──────────────────────────────────────────────────────────
+  // ── State ─────────────────────────────────────────────────────────────────
   let isOpen = false;
 
-  // ── DOM construction ──────────────────────────────────────────────────────
+  // ── Build widget ──────────────────────────────────────────────────────────
   function buildWidget() {
-    // Inject styles
     const styleEl = document.createElement('style');
     styleEl.textContent = STYLES;
     document.head.appendChild(styleEl);
 
-    // Bubble button
     const bubble = document.createElement('button');
     bubble.id = 'ts-chat-bubble';
     bubble.setAttribute('aria-label', 'Chat with TenantSentry');
     bubble.innerHTML = '💬<span class="ts-bubble-badge">Ask</span>';
     document.body.appendChild(bubble);
 
-    // Chat panel
     const panel = document.createElement('div');
     panel.id = 'ts-chat-panel';
     panel.className = 'ts-hidden';
     panel.setAttribute('role', 'dialog');
-    panel.setAttribute('aria-label', 'TenantSentry lease assistant');
-    panel.innerHTML = `
-      <div class="ts-chat-header">
-        <div class="ts-chat-header-avatar">🏢</div>
-        <div class="ts-chat-header-info">
-          <div class="ts-chat-header-name">TenantSentry Assistant</div>
-          <div class="ts-chat-header-status">Commercial lease rights · Australia</div>
-        </div>
-        <button class="ts-chat-close" id="ts-chat-close" aria-label="Close chat">✕</button>
-      </div>
-      <div class="ts-chat-messages" id="ts-chat-messages"></div>
-      <div class="ts-chat-input-row">
-        <textarea class="ts-chat-input" id="ts-chat-input"
-          placeholder="Ask about rent increases, outgoings, make good…"
-          rows="1" aria-label="Your question"></textarea>
-        <button class="ts-chat-send" id="ts-chat-send" aria-label="Send">➤</button>
-      </div>
-      <div class="ts-disclaimer">General information only · Not legal advice</div>
-    `;
+    panel.setAttribute('aria-label', 'TenantSentry assistant');
+    panel.innerHTML =
+      '<div class="ts-chat-header">' +
+        '<div class="ts-chat-header-avatar">🏢</div>' +
+        '<div class="ts-chat-header-info">' +
+          '<div class="ts-chat-header-name">TenantSentry Assistant</div>' +
+          '<div class="ts-chat-header-status">Product questions & lease rights</div>' +
+        '</div>' +
+        '<button class="ts-chat-close" id="ts-chat-close" aria-label="Close">✕</button>' +
+      '</div>' +
+      '<div class="ts-chat-messages" id="ts-chat-messages"></div>' +
+      '<div class="ts-chat-input-row">' +
+        '<textarea class="ts-chat-input" id="ts-chat-input" placeholder="Ask about TenantSentry or your lease rights…" rows="1" aria-label="Your question"></textarea>' +
+        '<button class="ts-chat-send" id="ts-chat-send" aria-label="Send">➤</button>' +
+      '</div>' +
+      '<div class="ts-disclaimer">General information only · Not legal advice</div>';
     document.body.appendChild(panel);
 
-    // Welcome message
     addBotMessage(
-      `Hi there 👋 I can answer general questions about <strong>commercial lease rights in VIC, NSW, and QLD</strong> — rent increases, outgoings, make good, options, and more.<br><br>What's on your mind?`,
+      'Hi there 👋 I\'m the TenantSentry assistant. I can help with two things:<br><br>' +
+      '<strong>About TenantSentry</strong> — how it works, pricing, what we find<br>' +
+      '<strong>Lease questions</strong> — rent increases, outgoings, make good, options and more (VIC, NSW, QLD)<br><br>' +
+      'What are you here for?',
       null
     );
+    addChips(['What can TenantSentry do?', 'I have a lease question', 'How much does it cost?']);
 
-    // Event listeners
     bubble.addEventListener('click', togglePanel);
     document.getElementById('ts-chat-close').addEventListener('click', closePanel);
     document.getElementById('ts-chat-send').addEventListener('click', handleSend);
+
     const input = document.getElementById('ts-chat-input');
-    input.addEventListener('keydown', (e) => {
+    input.addEventListener('keydown', function(e) {
       if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); }
     });
-    input.addEventListener('input', () => {
+    input.addEventListener('input', function() {
       input.style.height = 'auto';
       input.style.height = Math.min(input.scrollHeight, 100) + 'px';
     });
   }
 
-  function togglePanel() {
-    isOpen ? closePanel() : openPanel();
-  }
+  function togglePanel() { isOpen ? closePanel() : openPanel(); }
 
   function openPanel() {
     isOpen = true;
     document.getElementById('ts-chat-panel').classList.remove('ts-hidden');
-    setTimeout(() => document.getElementById('ts-chat-input').focus(), 100);
+    setTimeout(function() { document.getElementById('ts-chat-input').focus(); }, 100);
   }
 
   function closePanel() {
@@ -455,21 +338,40 @@ Costs are low and the process is designed for non-lawyers. Most disputes resolve
     document.getElementById('ts-chat-panel').classList.add('ts-hidden');
   }
 
-  // ── Message rendering ─────────────────────────────────────────────────────
-  function addBotMessage(html, ctaHref) {
+  function addBotMessage(html, cta) {
     const msgs = document.getElementById('ts-chat-messages');
     const div = document.createElement('div');
     div.className = 'ts-msg ts-msg-bot';
     div.innerHTML = html;
-    if (ctaHref) {
-      const cta = document.createElement('div');
-      cta.className = 'ts-msg-cta';
-      cta.innerHTML = `<a href="${ctaHref}" class="ts-cta-btn" target="_blank">Upload my lease →</a>`;
-      div.appendChild(cta);
+    if (cta) {
+      const ctaDiv = document.createElement('div');
+      ctaDiv.className = 'ts-msg-cta';
+      ctaDiv.innerHTML = '<a href="' + cta.href + '" class="ts-cta-btn" target="_blank">' + cta.label + '</a>';
+      div.appendChild(ctaDiv);
     }
     msgs.appendChild(div);
     msgs.scrollTop = msgs.scrollHeight;
     return div;
+  }
+
+  function addChips(chips) {
+    const msgs = document.getElementById('ts-chat-messages');
+    const row = document.createElement('div');
+    row.className = 'ts-chips';
+    row.id = 'ts-chips';
+    chips.forEach(function(label) {
+      const btn = document.createElement('button');
+      btn.className = 'ts-chip';
+      btn.textContent = label;
+      btn.addEventListener('click', function() {
+        row.remove();
+        document.getElementById('ts-chat-input').value = label;
+        handleSend();
+      });
+      row.appendChild(btn);
+    });
+    msgs.appendChild(row);
+    msgs.scrollTop = msgs.scrollHeight;
   }
 
   function addUserMessage(text) {
@@ -492,7 +394,6 @@ Costs are low and the process is designed for non-lawyers. Most disputes resolve
     return div;
   }
 
-  // ── Send handler ──────────────────────────────────────────────────────────
   async function handleSend() {
     const input = document.getElementById('ts-chat-input');
     const sendBtn = document.getElementById('ts-chat-send');
@@ -503,24 +404,26 @@ Costs are low and the process is designed for non-lawyers. Most disputes resolve
     input.style.height = 'auto';
     sendBtn.disabled = true;
 
+    const chips = document.getElementById('ts-chips');
+    if (chips) chips.remove();
+
     addUserMessage(query);
     const typingEl = showTyping();
 
-    // Simulate thinking delay (realistic UX)
-    await new Promise(r => setTimeout(r, 700 + Math.random() * 600));
+    await new Promise(function(r) { setTimeout(r, 700 + Math.random() * 600); });
 
     const match = matchKB(query);
-    await logQuery(query, match); // fire-and-forget
+    logQuery(query, match);
 
     typingEl.remove();
 
     if (match) {
-      addBotMessage(renderMessage(match.response), UPLOAD_URL);
+      addBotMessage(renderMessage(match.response), match.cta);
     } else {
       addBotMessage(
-        `That's a good question — we're still building our KB answer for that specific topic.<br><br>` +
-        `For a <strong>personalised answer based on your actual lease</strong>, upload it and our AI audit will flag any issues specific to your situation.`,
-        UPLOAD_URL
+        "That's a good question — we're still building our answer for that specific topic.<br><br>" +
+        "For a <strong>personalised answer based on your actual lease</strong>, upload it and our AI audit will flag any issues specific to your situation.",
+        { label: 'Upload my lease →', href: UPLOAD_URL }
       );
     }
 
@@ -528,7 +431,6 @@ Costs are low and the process is designed for non-lawyers. Most disputes resolve
     input.focus();
   }
 
-  // ── Init ──────────────────────────────────────────────────────────────────
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', buildWidget);
   } else {
