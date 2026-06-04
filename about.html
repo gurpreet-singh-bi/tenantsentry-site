@@ -459,4 +459,24 @@
           <option value="">Select...</option>
           <option>Start a lease audit</option>
           <option>Founding Partner enquiry</option>
-          <option>Channel p
+          <option>Channel partner / white-label</option>
+          <option>General question</option>
+        </select>
+      </label>
+      <label>Message <textarea placeholder="Tell us about your situation..."></textarea></label>
+      <button type="submit" class="modal-submit">Send message &#8594;</button>
+    </form>
+    <div id="contact-success" style="display:none;margin-top:16px;padding:12px 16px;background:#f0fdf4;border:1px solid #A7F3D0;border-radius:8px;font-size:0.88rem;color:var(--amber-dark);font-weight:600;">
+      &#x2713; Thanks &mdash; we'll be in touch within one business day.
+    </div>
+  </div>
+</div>
+<script>
+  function openContact() { document.getElementById("contact-modal").classList.add("open"); document.body.style.overflow="hidden"; }
+  function closeContact() { document.getElementById("contact-modal").classList.remove("open"); document.body.style.overflow=""; }
+  function handleContact(e) { e.preventDefault(); e.target.style.display="none"; document.getElementById("contact-success").style.display="block"; }
+  document.addEventListener("keydown", function(e) { if(e.key==="Escape") closeContact(); });
+</script>
+<script src="/chat.js" data-api="https://api.tenantsentry.com.au"></script>
+</body>
+</html>
